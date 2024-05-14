@@ -3,6 +3,8 @@ import { NavigationContainer, useNavigationContainerRef } from "@react-navigatio
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { routes } from "@/router/routes";
+import HomeScreen from "@/screens/HomeScreen";
+import NotFound from "@/screens/NotFound";
 
 export default function Router() {
     const Stack = createNativeStackNavigator();
@@ -21,8 +23,8 @@ export default function Router() {
             onUnhandledAction={handleError}
         >
             <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={routes.home}>
-                <Stack.Screen name={routes.home} component={}/>
-                <Stack.Screen name="*" component={}/>
+                <Stack.Screen name={routes.home} component={HomeScreen}/>
+                <Stack.Screen name="*" component={NotFound}/>
             </Stack.Navigator>
         </NavigationContainer>
     );
