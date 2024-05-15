@@ -1,12 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { BarcodeScanningResult, CameraView, useCameraPermissions } from "expo-camera";
 //import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
 import { colors } from "@/styles/colors";
-import Button from "@/components/Button";
 import BackButton from "@/components/BackButton";
+import NextButton from "@/components/NextButton";
 
 interface QrScannerProps {
     instructions: string;
@@ -20,8 +20,14 @@ export default function QrScanner(props: QrScannerProps) {
     const [permission, requestPermission] = useCameraPermissions();
     const [wantScanned, setWantScanned] = useState(false);
 
-    if (!permission?.granted) {
-        requestPermission();
+    useEffect(() => {
+        if (!permission?.granted) {
+            requestPermission();
+        }
+    }, [permission]);
+
+    const handlePress = () => {
+        setWantScanned(true);
     }
 
     return (
@@ -34,7 +40,7 @@ export default function QrScanner(props: QrScannerProps) {
             <View style={styles.instructionsArea}>
                 <Text style={styles.instructions}>{props.instructions}</Text>
             </View>
-            <Button text="Scanner" onPress={() => {setWantScanned(true)}} buttonStyle={styles.button}/>
+            <NextButton text="Scanner" onPress={handlePress}/>
         </CameraView>
     );
 };
@@ -57,13 +63,5 @@ const styles = StyleSheet.create({
     },
     instructions: {
         textAlign: 'center',
-    },
-    button: {
-        position: 'absolute',
-        bottom: 20,
-        height: 40,
-        width: '60%',
-        borderRadius: 10,
-        justifyContent: 'center',
     },
 });
