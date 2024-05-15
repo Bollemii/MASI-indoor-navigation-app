@@ -5,6 +5,8 @@ import { BarcodeScanningResult, CameraView, useCameraPermissions } from "expo-ca
 
 import { routes } from "@/router/routes";
 import { colors } from "@/styles/colors";
+import { fonts } from '@/styles/fonts';
+import { layout } from "@/styles/layout";
 import BackButton from "@/components/BackButton";
 import NextButton from "@/components/NextButton";
 
@@ -59,15 +61,15 @@ const styles = StyleSheet.create({
         top: 70,
         height: 60,
         width: '90%',
-        borderRadius: 10,
+        borderRadius: layout.borderRadius.small,
         backgroundColor: colors.gray,
-        padding: 10,
+        padding: layout.padding,
         alignItems: 'center',
         justifyContent: 'center',
     },
     instructions: {
         textAlign: 'center',
-        fontSize: 14,
+        fontSize: fonts.size.normal,
         color: colors.black,
     },
 });

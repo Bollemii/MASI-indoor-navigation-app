@@ -1,11 +1,13 @@
+import { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { routes } from "@/router/routes";
 import { colors } from "@/styles/colors";
+import { fonts } from '@/styles/fonts';
+import { layout } from "@/styles/layout";
 import BackButton from "@/components/BackButton";
 import NextButton from "@/components/NextButton";
-import { useState } from "react";
 
 export default function Destination() {
     const navigation = useNavigation();
@@ -40,7 +42,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
     },
     title: {
-        fontSize: 32,
+        fontSize: fonts.size.title,
         fontWeight: 'bold',
         textAlign: 'center',
         color: colors.white,
@@ -49,7 +51,7 @@ const styles = StyleSheet.create({
         width: '80%',
     },
     inputLabel: {
-        fontSize: 14,
+        fontSize: fonts.size.normal,
         fontWeight: 'bold',
         color: colors.white,
         marginBottom: 5,
@@ -59,8 +61,8 @@ const styles = StyleSheet.create({
         width: '100%',
         borderColor: colors.black,
         borderWidth: 1,
-        borderRadius: 10,
+        borderRadius: layout.borderRadius.small,
         backgroundColor: colors.gray,
-        padding: 10,
+        padding: layout.padding,
     },
 });

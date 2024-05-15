@@ -1,4 +1,7 @@
 import { View, Text, StyleSheet } from 'react-native';
+
+import { fonts } from '@/styles/fonts';
+
 export default function HomeScreen() {
     return (
         <View style={styles.container}>
@@ -14,6 +17,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     title: {
-        fontSize: 24,
+        fontSize: fonts.size.title,
     },
 });

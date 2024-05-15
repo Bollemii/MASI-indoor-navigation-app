@@ -2,7 +2,9 @@ import { StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { colors } from "@/styles/colors";
-import Button from "./Button";
+import { fonts } from '@/styles/fonts';
+import { layout } from "@/styles/layout";
+import Button from "@/components/Button";
 
 interface BackButtonProps {
     text: string;
@@ -23,19 +25,19 @@ export default function BackButton(props: BackButtonProps) {
 const styles = StyleSheet.create({
     container: {
         position: 'absolute',
-        top: 20,
-        left: 20,
+        top: layout.emptyBorder,
+        left: layout.emptyBorder,
         height: 35,
         width: 80,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: colors.blue,
-        paddingHorizontal: 10,
+        paddingHorizontal: layout.padding,
         paddingVertical: 5,
-        borderRadius: 30,
+        borderRadius: layout.borderRadius.normal,
     },
     text: {
         color: colors.white,
-        fontSize: 14,
+        fontSize: fonts.size.normal,
     },
 });

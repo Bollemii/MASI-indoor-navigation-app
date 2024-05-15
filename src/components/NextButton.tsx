@@ -1,7 +1,9 @@
 import { StyleSheet } from "react-native";
 
 import { colors } from "@/styles/colors";
-import Button from "./Button";
+import { fonts } from '@/styles/fonts';
+import { layout } from "@/styles/layout";
+import Button from "@/components/Button";
 
 interface NextButtonProps {
     text: string;
@@ -28,11 +30,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         height: 40,
-        bottom: 25,
-        borderRadius: 30,
+        bottom: layout.emptyBorder+5,
+        borderRadius: layout.borderRadius.normal,
     },
     text: {
         color: colors.white,
-        fontSize: 14,
+        fontSize: fonts.size.normal,
     },
 });

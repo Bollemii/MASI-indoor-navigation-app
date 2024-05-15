@@ -3,6 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 
 import { routes } from "@/router/routes";
 import { colors } from "@/styles/colors";
+import { fonts } from '@/styles/fonts';
 import NextButton from "@/components/NextButton";
 
 export default function End() {
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.brown,
     },
     title: {
-        fontSize: 24,
+        fontSize: fonts.size.title,
         fontWeight: 'bold',
         color: colors.white,
         textAlign: 'center',

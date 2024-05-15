@@ -3,6 +3,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import { routes } from '@/router/routes';
 import { colors } from '@/styles/colors';
+import { fonts } from '@/styles/fonts';
+import { layout } from '@/styles/layout';
 import Button from '@/components/Button';
 
 export default function HomeScreen() {
@@ -17,8 +19,18 @@ export default function HomeScreen() {
         <View style={styles.container}>
             <Text style={styles.title}>Application{"\n"}de navigation</Text>
             <View style={styles.buttonContainer}>
-                <Button text='Ajouter un nouveau\npoint de passage' onPress={() => (navigateTo(routes.installation.addPoint))} buttonStyle={styles.button}/>
-                <Button text='Navigation' onPress={() => {navigateTo(routes.navigation.startScan)}} buttonStyle={styles.button}/>
+                <Button
+                    text='Ajouter un nouveau\npoint de passage'
+                    onPress={() => (navigateTo(routes.installation.addPoint))}
+                    buttonStyle={styles.button}
+                    textStyle={styles.buttonText}
+                />
+                <Button
+                    text='Navigation'
+                    onPress={() => {navigateTo(routes.navigation.startScan)}}
+                    buttonStyle={styles.button}
+                    textStyle={styles.buttonText}
+                />
             </View>
         </View>
     );
@@ -32,7 +44,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.brown,
     },
     title: {
-        fontSize: 32,
+        fontSize: fonts.size.title,
         fontWeight: 'bold',
         textAlign: 'center',
         color: colors.white,
@@ -48,6 +60,11 @@ const styles = StyleSheet.create({
         width: '50%',
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 30,
+        borderRadius: layout.borderRadius.normal,
+    },
+    buttonText: {
+        color: colors.white,
+        textAlign: 'center',
+        fontSize: 16,
     },
 });

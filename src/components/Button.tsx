@@ -1,6 +1,8 @@
 import { Text, Pressable, StyleSheet } from 'react-native';
 
 import { colors } from '@/styles/colors';
+import { fonts } from '@/styles/fonts';
+import { layout } from '@/styles/layout';
 
 interface ButtonProps {
     text: string;
@@ -42,13 +44,13 @@ const styles = StyleSheet.create({
     defaultButton: {
         height: 30,
         alignItems: 'center',
-        paddingHorizontal: 10,
+        paddingHorizontal: layout.padding,
         paddingVertical: 5,
         borderRadius: 50,
     },
     textButton: {
         color: colors.white,
-        fontSize: 16,
+        fontSize: fonts.size.normal,
         textAlign: 'center',
     },
 });
