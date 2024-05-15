@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { routes } from "@/router/routes";
 import HomeScreen from "@/screens/HomeScreen";
+import AddPoint from "@/screens/installation/AddPoint";
+import Navigation from "@/screens/navigation/Navigation";
 import NotFound from "@/screens/NotFound";
 
 export default function Router() {
@@ -24,6 +26,22 @@ export default function Router() {
         >
             <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={routes.home}>
                 <Stack.Screen name={routes.home} component={HomeScreen}/>
+                {/* Installation screens */}
+                <Stack.Group>
+                    <Stack.Screen name={routes.installation.addPoint} component={AddPoint}/>
+                    {/* {<Stack.Screen name={routes.installation.informations} component={Informations}/>
+                    <Stack.Screen name={routes.installation.addNeighbor} component={AddNeighbor}/>
+                    <Stack.Screen name={routes.installation.neighborOrientation} component={NeighborOrientation}/>
+                    <Stack.Screen name={routes.installation.neighborScan} component={NeighborScan}/>
+                    <Stack.Screen name={routes.installation.newOrientation} component={NewOrientation}/>} */}
+                </Stack.Group>
+                {/* Navigation screens */}
+                <Stack.Group>
+                    <Stack.Screen name={routes.navigation.startScan} component={Navigation}/>
+                    {/* {<Stack.Screen name={routes.navigation.destination} component={Destination}/>
+                    <Stack.Screen name={routes.navigation.navigation} component={Navigation}/>
+                    <Stack.Screen name={routes.navigation.end} component={End}/>} */}
+                </Stack.Group>
                 <Stack.Screen name="*" component={NotFound}/>
             </Stack.Navigator>
         </NavigationContainer>
