@@ -4,12 +4,19 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import { routes } from "@/router/routes";
 import HomeScreen from "@/screens/HomeScreen";
+import NotFound from "@/screens/NotFound";
+// Installation screens
 import AddPoint from "@/screens/installation/AddPoint";
+import Informations from "@/screens/installation/Informations";
+import AddNeighbor from "@/screens/installation/AddNeighbor";
+import NeighborOrientation from "@/screens/installation/NeighborOrientation";
+import NeighborScan from "@/screens/installation/NeighborScan";
+import NewOrientation from "@/screens/installation/NewOrientation";
+// Navigation screens
 import StartScan from "@/screens/navigation/StartScan";
 import Destination from "@/screens/navigation/Destination";
 import Navigation from "@/screens/navigation/Navigation";
 import End from "@/screens/navigation/End";
-import NotFound from "@/screens/NotFound";
 
 export default function Router() {
     const Stack = createNativeStackNavigator();
@@ -32,11 +39,11 @@ export default function Router() {
                 {/* Installation screens */}
                 <Stack.Group>
                     <Stack.Screen name={routes.installation.addPoint} component={AddPoint}/>
-                    {/* {<Stack.Screen name={routes.installation.informations} component={Informations}/>
+                    <Stack.Screen name={routes.installation.informations} component={Informations}/>
                     <Stack.Screen name={routes.installation.addNeighbor} component={AddNeighbor}/>
                     <Stack.Screen name={routes.installation.neighborOrientation} component={NeighborOrientation}/>
                     <Stack.Screen name={routes.installation.neighborScan} component={NeighborScan}/>
-                    <Stack.Screen name={routes.installation.newOrientation} component={NewOrientation}/>} */}
+                    <Stack.Screen name={routes.installation.newOrientation} component={NewOrientation}/>
                 </Stack.Group>
                 {/* Navigation screens */}
                 <Stack.Group>

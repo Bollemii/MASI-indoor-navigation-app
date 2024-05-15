@@ -13,6 +13,7 @@ import NextButton from "@/components/NextButton";
 interface QrScannerProps {
     instructions: string;
     handleScan: (result: BarcodeScanningResult) => void;
+    backRedirect?: string;
 }
 
 // It is only for testing
@@ -40,7 +41,7 @@ export default function QrScanner(props: QrScannerProps) {
             barcodeScannerSettings={{barcodeTypes:["qr"]}}
             onBarcodeScanned={automaticScan || wantScanned ? (result) => {props.handleScan(result); setWantScanned(false)} : undefined}
         >
-            <BackButton text="Retour" pageRedirect={routes.home}/>
+            <BackButton text="Retour" pageRedirect={props.backRedirect || routes.home}/>
             <View style={styles.instructionsArea}>
                 {instructions.map((instruction, index) => (
                     <Text key={index} style={styles.instructions}>{instruction}</Text>

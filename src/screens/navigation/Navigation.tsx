@@ -28,9 +28,7 @@ export default function Navigation() {
                 instructions="Suivez les indications.\nScannez le QR code du prochain point de passage."
                 handleScan={handleScan}
             />
-            <View style={styles.iconContainer}>
-                <NavigateIcon rotate={orientation} color={colors.blue} size={100}/>
-            </View>
+            <NavigateIcon rotate={orientation} color={colors.blue}/>
         </View>
     );
 };
@@ -38,11 +36,5 @@ export default function Navigation() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-    },
-    iconContainer: {
-        position: 'absolute',
-        bottom: 80,
-        left: "50%",
-        transform: [{translateX: -50}],
     },
 });
