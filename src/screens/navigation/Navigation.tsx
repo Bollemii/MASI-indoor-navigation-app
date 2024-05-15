@@ -1,16 +1,36 @@
-import { StyleSheet, Text, View } from "react-native";
+import { useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
-import { colors } from "@/styles/colors";
-import BackButton from "@/components/BackButton";
 import { routes } from "@/router/routes";
+import { colors } from "@/styles/colors";
 import NavigateIcon from "@/components/NavigateIcon";
+import QrScanner from "@/components/QrScanner";
 
 export default function Navigation() {
+    const navigation = useNavigation();
+    const [orientation, setOrientation] = useState(0);
+
+    const handleScan = (result) => {
+        console.log(result);
+
+        if (orientation >= 270) {
+            // @ts-expect-error: navigation type is not well defined
+            navigation.navigate(routes.navigation.end);
+        }
+
+        setOrientation(orientation + 90);
+    };
+
     return (
         <View style={styles.container}>
-            <BackButton text="Retour" pageRedirect={routes.home}/>
-            <Text style={styles.title}>Navigation</Text>
-            <NavigateIcon color={colors.black}/>
+            <QrScanner
+                instructions="Suivez les indications.\nScannez le QR code du prochain point de passage."
+                handleScan={handleScan}
+            />
+            <View style={styles.iconContainer}>
+                <NavigateIcon rotate={orientation} color={colors.blue} size={100}/>
+            </View>
         </View>
     );
 };
@@ -18,13 +38,11 @@ export default function Navigation() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: colors.brown,
     },
-    title: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: colors.white,
+    iconContainer: {
+        position: 'absolute',
+        bottom: 80,
+        left: "50%",
+        transform: [{translateX: -50}],
     },
 });

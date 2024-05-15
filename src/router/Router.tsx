@@ -5,6 +5,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { routes } from "@/router/routes";
 import HomeScreen from "@/screens/HomeScreen";
 import AddPoint from "@/screens/installation/AddPoint";
+import StartScan from "@/screens/navigation/StartScan";
+import Destination from "@/screens/navigation/Destination";
 import Navigation from "@/screens/navigation/Navigation";
 import End from "@/screens/navigation/End";
 import NotFound from "@/screens/NotFound";
@@ -38,10 +40,10 @@ export default function Router() {
                 </Stack.Group>
                 {/* Navigation screens */}
                 <Stack.Group>
-                    <Stack.Screen name={routes.navigation.startScan} component={End}/>
-                    {/* {<Stack.Screen name={routes.navigation.destination} component={Destination}/>
+                    <Stack.Screen name={routes.navigation.startScan} component={StartScan}/>
+                    <Stack.Screen name={routes.navigation.destination} component={Destination}/>
                     <Stack.Screen name={routes.navigation.navigation} component={Navigation}/>
-                    <Stack.Screen name={routes.navigation.end} component={End}/>} */}
+                    <Stack.Screen name={routes.navigation.end} component={End}/>
                 </Stack.Group>
                 <Stack.Screen name="*" component={NotFound}/>
             </Stack.Navigator>

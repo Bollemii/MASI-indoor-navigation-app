@@ -26,6 +26,8 @@ export default function QrScanner(props: QrScannerProps) {
         }
     }, [permission]);
 
+    const instructions = props.instructions.split("\\n");
+
     const handlePress = () => {
         setWantScanned(true);
     }
@@ -38,7 +40,9 @@ export default function QrScanner(props: QrScannerProps) {
         >
             <BackButton text="Retour" pageRedirect={routes.home}/>
             <View style={styles.instructionsArea}>
-                <Text style={styles.instructions}>{props.instructions}</Text>
+                {instructions.map((instruction, index) => (
+                    <Text key={index} style={styles.instructions}>{instruction}</Text>
+                ))}
             </View>
             <NextButton text="Scanner" onPress={handlePress}/>
         </CameraView>
@@ -63,5 +67,7 @@ const styles = StyleSheet.create({
     },
     instructions: {
         textAlign: 'center',
+        fontSize: 14,
+        color: colors.black,
     },
 });

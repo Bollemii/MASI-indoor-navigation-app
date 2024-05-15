@@ -16,7 +16,7 @@ export default function NextButton(props: NextButtonProps) {
             buttonStyle={styles.button}
             colorButton={colors.blue}
             colorPressedButton={colors.darkblue}
-            textStyle={{color: colors.white}}
+            textStyle={styles.text}
         />
     );
 };
@@ -30,5 +30,9 @@ const styles = StyleSheet.create({
         height: 40,
         bottom: 25,
         borderRadius: 30,
+    },
+    text: {
+        color: colors.white,
+        fontSize: 14,
     },
 });
