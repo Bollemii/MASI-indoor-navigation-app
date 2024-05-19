@@ -37,3 +37,7 @@ yarn-error.*
 # IDE folder
 .idea/
 .vscode/
+
+# Environment variables
+.env
+.*.env
