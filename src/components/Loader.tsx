@@ -11,7 +11,7 @@ export default function Loader(props: LoaderProps) {
     return (
         props.loading ? (
             <View style={[styles.container, {transform: [{translateX: -100}, {translateY: -40}]}]}>
-                <Text>Loading...</Text>
+                <Text>Chargement...</Text>
             </View>
         ) : null
     );

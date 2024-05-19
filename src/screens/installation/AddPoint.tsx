@@ -1,36 +1,43 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
+import { Waypoint } from "@/models/waypoint";
+import { getWaypointQuery } from "@/dataaccess/getWaypoint";
 import QrScanner from "@/components/QrScanner";
 import Loader from "@/components/Loader";
-import { createWaypointQuery } from "@/dataaccess/createWaypoint";
 import { useLazyCypher } from "@/hooks/useLazyCypher";
 
 export default function AddPoint() {
     const navigation = useNavigation();
+    const [id, setId] = useState("");
     const [result, loading, runQuery] = useLazyCypher();
 
     const handleScan = (result) => {
-        console.log("Scanned QR code", result.data);
-
-        //@TODO : not create here, it should pass id to the next screen
-        const query = createWaypointQuery(result.data);
+        setId(result.data);
+        // check if waypoint doesn't exists
+        const query = getWaypointQuery(result.data);
         runQuery(query.query, query.params);
     };
 
     useEffect(() => {
-        console.log("Result", result);
+        if (!id) return;
 
         if (result && result.length > 0) {
-            console.log("Waypoint creation");
-
-            const waypoint = result.records[0].get("w").properties;
+            const waypoint = result[0]._fields[0].properties as Waypoint;
             if (waypoint) {
-                // @ts-expect-error: navigation type is not well defined
-                navigation.navigate(routes.installation.informations);
+                console.log("Waypoint already exists and is named :", waypoint.name);
+                Toast.show(`Le point de passage existe déjà et est nommé "${waypoint.name}"`, {
+                    position: Toast.positions.CENTER,
+                });
             }
+        } else {
+            const newWaypoint = new Waypoint(id);
+
+            // @ts-expect-error: navigation type is not well defined
+            navigation.navigate(routes.installation.informations, { waypoint: newWaypoint});
         }
     }, [result]);
 
