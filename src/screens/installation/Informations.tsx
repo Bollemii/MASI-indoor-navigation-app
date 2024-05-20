@@ -1,24 +1,20 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import Toast from "react-native-root-toast";
+import { Picker } from "@react-native-picker/picker";
 
 import { routes } from "@/router/routes";
 import { colors } from "@/styles/colors";
 import { fonts } from "@/styles/fonts";
+import { WaypointType } from "@/models/waypointType";
 import NextButton from "@/components/NextButton";
 import BackButton from "@/components/BackButton";
-import { Waypoint } from "@/models/waypoint";
-import { Picker } from "@react-native-picker/picker";
-import { WaypointType } from "@/models/waypointType";
-import Toast from "react-native-root-toast";
+import { useWaypointContext } from "@/context/waypointContext";
 
-export default function Informations({ route }) {
-    const { waypoint } = route.params as { waypoint: Waypoint };
-    if (!waypoint) {
-        console.log("No waypoint provided");
-        return null;
-    }
+export default function Informations() {
     const navigation = useNavigation();
+    const { waypointCtx, setWaypointCtx } = useWaypointContext();
     const [name, setName] = useState("");
     const [type, setType] = useState<WaypointType>(WaypointType.ENTRY_EXIT);
 
@@ -38,10 +34,12 @@ export default function Informations({ route }) {
             return;
         }
 
+        const waypoint = waypointCtx;
         waypoint.name = name;
         waypoint.type = type;
+        setWaypointCtx(waypoint);
         // @ts-expect-error: navigation type is not well defined
-        navigation.navigate(routes.installation.addNeighbor, { waypoint: waypoint });
+        navigation.navigate(routes.installation.addNeighbor);
     };
 
     return (

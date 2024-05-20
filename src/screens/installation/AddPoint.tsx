@@ -9,9 +9,11 @@ import { getWaypointQuery } from "@/dataaccess/getWaypoint";
 import QrScanner from "@/components/QrScanner";
 import Loader from "@/components/Loader";
 import { useLazyCypher } from "@/hooks/useLazyCypher";
+import { useWaypointContext } from "@/context/waypointContext";
 
 export default function AddPoint() {
     const navigation = useNavigation();
+    const { setWaypointCtx } = useWaypointContext();
     const [id, setId] = useState("");
     const [result, loading, runQuery] = useLazyCypher();
 
@@ -35,9 +37,10 @@ export default function AddPoint() {
             }
         } else {
             const newWaypoint = new Waypoint(id);
+            setWaypointCtx(newWaypoint);
 
             // @ts-expect-error: navigation type is not well defined
-            navigation.navigate(routes.installation.informations, { waypoint: newWaypoint});
+            navigation.navigate(routes.installation.informations);
         }
     }, [result]);
 

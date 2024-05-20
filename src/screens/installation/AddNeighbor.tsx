@@ -7,7 +7,6 @@ import { routes } from "@/router/routes";
 import { colors } from "@/styles/colors";
 import { fonts } from "@/styles/fonts";
 import { layout } from "@/styles/layout";
-import { Waypoint } from "@/models/waypoint";
 import { getWaypointsNumber } from "@/dataaccess/getWaypointsNumber";
 import { createWaypointQuery } from "@/dataaccess/createWaypoint";
 import { addNeighborQuery } from "@/dataaccess/addNeighbor";
@@ -16,21 +15,18 @@ import NextButton from "@/components/NextButton";
 import BackButton from "@/components/BackButton";
 import Loader from "@/components/Loader";
 import { useLazyCypher } from "@/hooks/useLazyCypher";
+import { useWaypointContext } from "@/context/waypointContext";
 
-export default function AddNeighbor({ route }) {
-    const { waypoint } = route.params as { waypoint: Waypoint };
-    if (!waypoint) {
-        console.log("No waypoint provided");
-        return null;
-    }
+export default function AddNeighbor() {
     const navigation = useNavigation();
+    const { waypointCtx, setWaypointCtx } = useWaypointContext();
     const [getNumberResult, getNumberloading, runGetNumberQuery] = useLazyCypher();
     const [createResult, createloading, runCreateQuery] = useLazyCypher();
     const [waypointsNumber, setWaypointsNumber] = useState(0);
 
     const handlePress = () => {
         // @ts-expect-error: navigation type is not well defined
-        navigation.navigate(routes.installation.neighborOrientation, { waypoint: waypoint });
+        navigation.navigate(routes.installation.neighborOrientation);
     };
     const rejectFinish = () => {
         console.log("You must connect the waypoint to at least one neighbor before finishing the installation.");
@@ -39,12 +35,12 @@ export default function AddNeighbor({ route }) {
         });
     };
     const handlePressFinish = () => {
-        if (waypointsNumber > 0 && waypoint.neighbors.length === 0) {
+        if (waypointsNumber > 0 && waypointCtx.neighbors.length === 0) {
             rejectFinish();
             return;
         }
 
-        if (!waypoint.id || !waypoint.name || !waypoint.type) {
+        if (!waypointCtx.id || !waypointCtx.name || !waypointCtx.type) {
             console.log("Waypoint is not fully defined");
             Toast.show("Le point de passage n'est pas entièrement défini", {
                 position: Toast.positions.CENTER,
@@ -52,12 +48,13 @@ export default function AddNeighbor({ route }) {
             return;
         }
 
-        const createQuery = createWaypointQuery(waypoint);
+        const createQuery = createWaypointQuery(waypointCtx);
         runCreateQuery(createQuery.query, createQuery.params);
-        waypoint.neighbors.forEach((neighbor) => {
-            const neighborQuery = addNeighborQuery(waypoint.id, neighbor);
+        waypointCtx.neighbors.forEach((neighbor) => {
+            const neighborQuery = addNeighborQuery(waypointCtx.id, neighbor);
             runCreateQuery(neighborQuery.query, neighborQuery.params);
         });
+        setWaypointCtx(null);
     };
 
     useEffect(() => {
@@ -92,7 +89,7 @@ export default function AddNeighbor({ route }) {
                 buttonStyle={styles.button}
                 textStyle={styles.buttonText}
             />
-            <NextButton text="Terminer" onPress={waypointsNumber > 0 && waypoint.neighbors.length === 0 ? rejectFinish : handlePressFinish}/>
+            <NextButton text="Terminer" onPress={waypointsNumber > 0 && waypointCtx.neighbors.length === 0 ? rejectFinish : handlePressFinish}/>
         </View>
     );
 };
