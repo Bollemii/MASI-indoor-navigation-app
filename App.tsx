@@ -2,15 +2,15 @@ import { StatusBar } from 'expo-status-bar';
 import { RootSiblingParent } from 'react-native-root-siblings';
 
 import Router from '@/router/Router';
-import WaypointContextProvider from '@/context/waypointContext';
+import ContextsProvider from '@/context';
 
 export default function App() {
     return (
         <RootSiblingParent>
-            <WaypointContextProvider>
+            <ContextsProvider>
                 <Router/>
                 <StatusBar hidden={true}/>
-            </WaypointContextProvider>
+            </ContextsProvider>
         </RootSiblingParent>
     );
 }

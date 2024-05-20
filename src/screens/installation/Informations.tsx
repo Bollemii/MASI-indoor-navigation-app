@@ -35,12 +35,20 @@ export default function Informations() {
         }
 
         const waypoint = waypointCtx;
-        waypoint.name = name;
+        waypoint.name = name.trim();
         waypoint.type = type;
         setWaypointCtx(waypoint);
         // @ts-expect-error: navigation type is not well defined
         navigation.navigate(routes.installation.addNeighbor);
     };
+
+    useEffect(() => {
+        if (!waypointCtx) {
+            console.error("Waypoint context is not defined");
+            // @ts-expect-error: navigation type is not well defined
+            navigation.navigate(routes.home);
+        }
+    }, []);
 
     return (
         <View style={styles.container}>

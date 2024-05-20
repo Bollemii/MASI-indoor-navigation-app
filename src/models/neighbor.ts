@@ -1,8 +1,8 @@
 export class Neighbor {
     private _id: string;
     private _distance: number;
-    private _fromOrientation: number;
-    private _toOrientation: number;
+    private _fromOrientation: number; // waypoint -> neighbor
+    private _toOrientation: number; // neighbor -> waypoint
 
     constructor() {}
 

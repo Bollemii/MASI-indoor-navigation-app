@@ -16,15 +16,28 @@ import BackButton from "@/components/BackButton";
 import Loader from "@/components/Loader";
 import { useLazyCypher } from "@/hooks/useLazyCypher";
 import { useWaypointContext } from "@/context/waypointContext";
+import { useNeighborContext } from "@/context/neighborContext";
 
 export default function AddNeighbor() {
     const navigation = useNavigation();
     const { waypointCtx, setWaypointCtx } = useWaypointContext();
+    const { setNeighborCtx } = useNeighborContext();
     const [getNumberResult, getNumberloading, runGetNumberQuery] = useLazyCypher();
-    const [createResult, createloading, runCreateQuery] = useLazyCypher();
+    const [createResult, createLoading, runCreateQuery] = useLazyCypher();
+    const [neighborResult, neighborLoading, runNeighborQuery] = useLazyCypher();
     const [waypointsNumber, setWaypointsNumber] = useState(0);
+    const [isFinished, setIsFinished] = useState(false);
+    const [neighborsCreated, setNeighborsCreated] = useState<string[]>([]);
 
     const handlePress = () => {
+        if (waypointsNumber === 0) {
+            console.log("You are creating the first waypoint. It is not possible to connect it to a neighbor. You can finish the installation.");
+            Toast.show("Vous créez le premier point de passage. Il n'est pas possible de le connecter à un voisin. Vous pouvez terminer l'installation.", {
+                position: Toast.positions.CENTER,
+            });
+            return;
+        }
+
         // @ts-expect-error: navigation type is not well defined
         navigation.navigate(routes.installation.neighborOrientation);
     };
@@ -35,7 +48,7 @@ export default function AddNeighbor() {
         });
     };
     const handlePressFinish = () => {
-        if (waypointsNumber > 0 && waypointCtx.neighbors.length === 0) {
+        if (!isFinished && waypointsNumber > 0 && waypointCtx.neighbors.length === 0) {
             rejectFinish();
             return;
         }
@@ -50,17 +63,28 @@ export default function AddNeighbor() {
 
         const createQuery = createWaypointQuery(waypointCtx);
         runCreateQuery(createQuery.query, createQuery.params);
-        waypointCtx.neighbors.forEach((neighbor) => {
-            const neighborQuery = addNeighborQuery(waypointCtx.id, neighbor);
-            runCreateQuery(neighborQuery.query, neighborQuery.params);
-        });
-        setWaypointCtx(null);
     };
+    const finish = () => {
+        setIsFinished(true);
+        setWaypointCtx(null);
+        setNeighborCtx(null);
+
+        // @ts-expect-error: navigation type is not well defined
+        navigation.navigate(routes.home);
+    }
 
     useEffect(() => {
-        const getNumberQuery = getWaypointsNumber();
-        runGetNumberQuery(getNumberQuery.query, getNumberQuery.params);
-    }, []);
+        if (isFinished) return;
+
+        if (!waypointCtx) {
+            console.error("Waypoint context is not defined");
+            // @ts-expect-error: navigation type is not well defined
+            navigation.navigate(routes.home);
+        } else {
+            const getNumberQuery = getWaypointsNumber();
+            runGetNumberQuery(getNumberQuery.query, getNumberQuery.params);
+        }
+    }, [waypointCtx]);
     useEffect(() => {
         if (getNumberResult && getNumberResult.length > 0) {
             setWaypointsNumber(getNumberResult[0]._fields[0].low);
@@ -68,19 +92,41 @@ export default function AddNeighbor() {
     }, [getNumberResult]);
     useEffect(() => {
         if (createResult && createResult.length > 0) {
-            console.log("Waypoint created", createResult[0]._fields[0].properties);
-            Toast.show("Le point de passage a été créé", {
-                position: Toast.positions.CENTER,
-            });
-
-            // @ts-expect-error: navigation type is not well defined
-            navigation.navigate(routes.home);
+            if (waypointsNumber === 0) {
+                console.log("Waypoint created", createResult[0]._fields[0].properties);
+                Toast.show("Le point de passage a été créé", {
+                    position: Toast.positions.CENTER,
+                });
+                finish();
+            } else {
+                waypointCtx.neighbors.forEach((neighbor) => {
+                    const neighborQuery = addNeighborQuery(waypointCtx.id, neighbor);
+                    runNeighborQuery(neighborQuery.query, neighborQuery.params);
+                });
+            }
         }
     }, [createResult]);
+    useEffect(() => {
+        if (isFinished) return;
+
+        if (neighborResult && neighborResult.length > 0) {
+            const neighborId = neighborResult[0]._fields[0].properties.id;
+            if (neighborsCreated.includes(neighborId)) return;
+            setNeighborsCreated([...neighborsCreated, neighborId]);
+            
+            if ([...neighborsCreated, neighborId].length === waypointCtx.neighbors.length) {
+                console.log("Waypoint created", createResult[0]._fields[0].properties);
+                Toast.show("Le point de passage a été créé", {
+                    position: Toast.positions.CENTER,
+                });
+                finish();
+            }
+        }
+    }, [neighborResult]);
 
     return (
         <View style={styles.container}>
-            <Loader loading={getNumberloading || createloading}/>
+            <Loader loading={getNumberloading || createLoading || neighborLoading}/>
             <BackButton text="Annuler" pageRedirect={routes.home}/>
             <Text style={styles.title}>Ajout d'un nouveau point de passage</Text>
             <Button
@@ -89,7 +135,7 @@ export default function AddNeighbor() {
                 buttonStyle={styles.button}
                 textStyle={styles.buttonText}
             />
-            <NextButton text="Terminer" onPress={waypointsNumber > 0 && waypointCtx.neighbors.length === 0 ? rejectFinish : handlePressFinish}/>
+            <NextButton text="Terminer" onPress={handlePressFinish}/>
         </View>
     );
 };

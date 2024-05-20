@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -6,23 +6,39 @@ import { routes } from "@/router/routes";
 import { colors } from "@/styles/colors";
 import { fonts } from "@/styles/fonts";
 import { layout } from "@/styles/layout";
+import { Neighbor } from "@/models/neighbor";
 import Button from "@/components/Button";
 import NavigateIcon from "@/components/NavigateIcon";
 import NextButton from "@/components/NextButton";
 import BackButton from "@/components/BackButton";
+import { useWaypointContext } from "@/context/waypointContext";
+import { useNeighborContext } from "@/context/neighborContext";
 
 export default function NeighborOrientation() {
     const navigation = useNavigation();
+    const { waypointCtx } = useWaypointContext();
+    const { setNeighborCtx } = useNeighborContext();
     const [orientation, setOrientation] = useState(0);
 
     const handlePress = () => {
-        console.log("Orientation");
+        setOrientation(0)
     };
     const handlePressDone = () => {
-        console.log("Done");
+        const neighbor = new Neighbor()
+        neighbor.fromOrientation = orientation
+        setNeighborCtx(neighbor)
+
         // @ts-expect-error: navigation type is not well defined
         navigation.navigate(routes.installation.neighborScan)
     };
+
+    useEffect(() => {
+        if (!waypointCtx) {
+            console.error("Waypoint context is not defined");
+            // @ts-expect-error: navigation type is not well defined
+            navigation.navigate(routes.home);
+        }
+    }, []);
 
     return (
         <View style={styles.container}>
