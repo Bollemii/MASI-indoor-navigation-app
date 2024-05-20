@@ -41,3 +41,6 @@ yarn-error.*
 # Environment variables
 .env
 .*.env
+
+# Qr codes folder
+qr-codes/
