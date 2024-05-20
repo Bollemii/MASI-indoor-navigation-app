@@ -8,22 +8,36 @@ import NavigateIcon from "@/components/NavigateIcon";
 import QrScanner from "@/components/QrScanner";
 import { useNavigationContext } from "@/context/navigationContext";
 import { useMagnetometer } from "@/hooks/useMagnetometer";
+import Toast from "react-native-root-toast";
 
 export default function Navigation() {
     const navigation = useNavigation();
     const { navigationCtx } = useNavigationContext();
     const magnetometer = useMagnetometer();
     const [orientation, setOrientation] = useState(0);
+    const [idScanned, setIdScanned] = useState("");
+    const [id, setId] = useState(0);
 
     const handleScan = (result) => {
-        console.log(result);
+        setIdScanned(result.data);
 
-        if (orientation >= 270) {
-            // @ts-expect-error: navigation type is not well defined
-            navigation.navigate(routes.navigation.end);
+        if (result.data !== navigationCtx.path[id].end.properties.id) {
+            console.log("Wrong QR code scanned");
+            Toast.show("Vous n'êtes pas au bon endroit", {
+                position: Toast.positions.CENTER,
+            });
+            return;
         }
 
-        setOrientation(orientation + 90);
+        if (result.data === navigationCtx.end.id) {
+            console.log("Destination reached");
+
+            // @ts-expect-error: navigation type is not well defined
+            navigation.navigate(routes.navigation.end);
+            return;
+        }
+
+        setId(id + 1)
     };
 
     useEffect(() => {
@@ -32,9 +46,14 @@ export default function Navigation() {
             // @ts-expect-error: navigation type is not well defined
             navigation.navigate(routes.home);
         }
-
-        setOrientation(0) // orientation to next neighbor
     }, []);
+    useEffect(() => {
+        if (!idScanned) {
+            setOrientation(navigationCtx.path[0].relationship.properties.orientation)
+        } else {
+            setOrientation(navigationCtx.path[id].relationship.properties.orientation)
+        }
+    }, [id]);
 
     return (
         <View style={styles.container}>
@@ -42,7 +61,11 @@ export default function Navigation() {
                 instructions="Suivez les indications.\nScannez le QR code du prochain point de passage."
                 handleScan={handleScan}
             />
-            <NavigateIcon orientation={orientation} color={colors.blue}/>
+            <NavigateIcon
+                orientation={orientation}
+                color={colors.blue}
+                magnetometerAngle={magnetometer}
+            />
         </View>
     );
 };

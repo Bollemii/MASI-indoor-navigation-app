@@ -1,33 +1,36 @@
 import { createContext, useContext, useState } from "react";
 import { Waypoint } from "@/models/waypoint";
 
+type Path = {
+    start: { properties: Waypoint }
+    end: { properties: Waypoint }
+    relationship: { properties: { distance: number, orientation: number } }
+};
 type NavigationContextType = {
     start: Waypoint | null;
     end: Waypoint | null;
-    path: Waypoint[] | null;
-    id: number | null;
+    path: Path[] | null;
 };
 
 export const NavigationContext = createContext<{
     navigationCtx: NavigationContextType | null,
     setStart: (start: Waypoint) => void,
     setEnd: (end: Waypoint) => void,
-    setPath: (path: Waypoint[]) => void,
-    incrId: () => void,
+    setPath: (path: Path[]) => void,
     setNavigationCtx: (navigation: NavigationContextType | null) => void }>
-    ({ navigationCtx: null, setStart: () => {}, setEnd: () => {}, setPath: () => {}, incrId: () => {}, setNavigationCtx: () => {} });
+    ({ navigationCtx: null, setStart: () => {}, setEnd: () => {}, setPath: () => {}, setNavigationCtx: () => {} });
 
 export default function NavigationContextProvider({ children }) {
     const [navigationCtx, setNavigationCtx] = useState<NavigationContextType | null>(null);
 
     const createNavigationCtx = () => {
-        setNavigationCtx({ start: null, end: null, path: null, id: null });
+        setNavigationCtx({ start: null, end: null, path: null });
     }
 
-    const setPath = (path: Waypoint[]) => {
+    const setPath = (path: Path[]) => {
         if (!navigationCtx) createNavigationCtx();
 
-        setNavigationCtx({ ...navigationCtx, path , id: 0});
+        setNavigationCtx({ ...navigationCtx, path});
     };
     const setStart = (start: Waypoint) => {
         if (!navigationCtx) createNavigationCtx();
@@ -39,14 +42,9 @@ export default function NavigationContextProvider({ children }) {
         
         setNavigationCtx({ ...navigationCtx, end });
     };
-    const incrId = () => {
-        if (!navigationCtx) createNavigationCtx();
-        
-        setNavigationCtx({ ...navigationCtx, id: navigationCtx.id ? navigationCtx.id + 1 : 1 });
-    };
 
     return (
-        <NavigationContext.Provider value={{ navigationCtx, setStart, setEnd, setPath, incrId, setNavigationCtx }}>
+        <NavigationContext.Provider value={{ navigationCtx, setStart, setEnd, setPath, setNavigationCtx }}>
             {children}
         </NavigationContext.Provider>
     );

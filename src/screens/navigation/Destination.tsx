@@ -15,11 +15,13 @@ import Loader from "@/components/Loader";
 import { useLazyCypher } from "@/hooks/useLazyCypher";
 import { useNavigationContext } from "@/context/navigationContext";
 import Toast from "react-native-root-toast";
+import { getShortestPathQuery } from "@/dataaccess/getShortestPath";
 
 export default function Destination() {
     const navigation = useNavigation();
-    const { navigationCtx, setEnd } = useNavigationContext();
-    const [result, loading, runQuery] = useLazyCypher();
+    const { navigationCtx, setPath, setEnd } = useNavigationContext();
+    const [waypointsResult, waypointsLoading, runWaypointsQuery] = useLazyCypher();
+    const [pathResult, pathLoading, runPathQuery] = useLazyCypher();
     const [destination, setDestination] = useState("");
     const [waypoints, setWaypoints] = useState<Waypoint[]>([]);
 
@@ -41,10 +43,18 @@ export default function Destination() {
             return;
         }
 
+        if (destination === navigationCtx.start.id) {
+            console.error("Destination is the same as the start");
+            Toast.show("Vous ne pouvez pas choisir le même point de passage comme destination", {
+                position: Toast.positions.CENTER,
+            });
+            return;
+        }
+
         setEnd(end);
 
-        // @ts-expect-error: navigation type is not well defined
-        navigation.navigate(routes.navigation.navigation);
+        const query = getShortestPathQuery(navigationCtx.start.id, end.id);
+        runPathQuery(query.query, query.params);
     }
 
     useEffect(() => {
@@ -56,21 +66,29 @@ export default function Destination() {
         }
 
         const query = getNavigableWaypointsQuery();
-        runQuery(query.query, query.params);
+        runWaypointsQuery(query.query, query.params);
     }, []);
     useEffect(() => {
-        if (result && result.length > 0) {
-            const waypoints = result.map((waypoint: any) => {
+        if (waypointsResult && waypointsResult.length > 0) {
+            const waypoints = waypointsResult.map((waypoint: any) => {
                 return waypoint._fields[0].properties as Waypoint;
             }).sort((a: Waypoint, b: Waypoint) => a.name.localeCompare(b.name));
             
             setWaypoints(waypoints);
         }
-    }, [result]);
+    }, [waypointsResult]);
+    useEffect(() => {
+        if (pathResult && pathResult.length > 0) {
+            setPath(pathResult[0]._fields[0].segments);
+
+            // @ts-expect-error: navigation type is not well defined
+            navigation.navigate(routes.navigation.navigation);
+        }
+    }, [pathResult]);
 
     return (
         <View style={styles.container}>
-            <Loader loading={loading}/>
+            <Loader loading={waypointsLoading || pathLoading}/>
             <BackButton text="Quitter" pageRedirect={routes.home}/>
             <Text style={styles.title}>Destination</Text>
             <View style={styles.inputContainer}>

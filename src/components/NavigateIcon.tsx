@@ -14,7 +14,7 @@ export default function NavigateIcon(props: NavigateIconProps) {
     const size = props.size || 100;
     
     const getRotation = (): number => {
-        if (props.magnetometerAngle && props.orientation) {
+        if (props.magnetometerAngle !== undefined && props.orientation !== undefined) {
             return (props.orientation - props.magnetometerAngle) % 360;
         } else if (props.orientation) {
             return props.orientation;
