@@ -4,20 +4,21 @@ import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
-import { Neighbor } from "@/models/neighbor";
 import { Waypoint } from "@/models/waypoint";
 import { getWaypointQuery } from "@/dataaccess/getWaypoint";
 import QrScanner from "@/components/QrScanner";
 import Loader from "@/components/Loader";
+import { useLazyCypher } from "@/hooks/useLazyCypher";
+import usePedometer from "@/hooks/usePedometer";
 import { useWaypointContext } from "@/context/waypointContext";
 import { useNeighborContext } from "@/context/neighborContext";
-import { useLazyCypher } from "@/hooks/useLazyCypher";
 
 export default function NeighborScan() {
     const navigation = useNavigation();
     const { waypointCtx } = useWaypointContext();
     const { neighborCtx, setNeighborCtx } = useNeighborContext();
     const [result, loading, runQuery] = useLazyCypher();
+    const steps = usePedometer();
     const [id, setId] = useState("");
 
     const handleScan = (result) => {
@@ -63,7 +64,7 @@ export default function NeighborScan() {
             } else {
                 const neighbor = neighborCtx
                 neighbor.id = id;
-                neighbor.distance = 0;
+                neighbor.distance = steps;
                 setNeighborCtx(neighbor);
 
                 // @ts-expect-error: navigation type is not well defined
