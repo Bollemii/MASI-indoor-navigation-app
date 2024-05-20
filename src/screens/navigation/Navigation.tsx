@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
@@ -6,9 +6,13 @@ import { routes } from "@/router/routes";
 import { colors } from "@/styles/colors";
 import NavigateIcon from "@/components/NavigateIcon";
 import QrScanner from "@/components/QrScanner";
+import { useNavigationContext } from "@/context/navigationContext";
+import { useMagnetometer } from "@/hooks/useMagnetometer";
 
 export default function Navigation() {
     const navigation = useNavigation();
+    const { navigationCtx } = useNavigationContext();
+    const magnetometer = useMagnetometer();
     const [orientation, setOrientation] = useState(0);
 
     const handleScan = (result) => {
@@ -22,13 +26,23 @@ export default function Navigation() {
         setOrientation(orientation + 90);
     };
 
+    useEffect(() => {
+        if (!navigationCtx) {
+            console.error("Navigation context is not set");
+            // @ts-expect-error: navigation type is not well defined
+            navigation.navigate(routes.home);
+        }
+
+        setOrientation(0) // orientation to next neighbor
+    }, []);
+
     return (
         <View style={styles.container}>
             <QrScanner
                 instructions="Suivez les indications.\nScannez le QR code du prochain point de passage."
                 handleScan={handleScan}
             />
-            <NavigateIcon rotate={orientation} color={colors.blue}/>
+            <NavigateIcon orientation={orientation} color={colors.blue}/>
         </View>
     );
 };

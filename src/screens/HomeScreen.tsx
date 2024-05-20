@@ -9,11 +9,13 @@ import { layout } from '@/styles/layout';
 import Button from '@/components/Button';
 import { useWaypointContext } from '@/context/waypointContext';
 import { useNeighborContext } from '@/context/neighborContext';
+import { useNavigationContext } from '@/context/navigationContext';
 
 export default function HomeScreen() {
     const navigation = useNavigation();
     const { setWaypointCtx } = useWaypointContext();
     const { setNeighborCtx } = useNeighborContext();
+    const { setNavigationCtx } = useNavigationContext();
 
     const navigateTo = (screen: string) => {
         // @ts-expect-error: navigation type is not well defined
@@ -23,6 +25,7 @@ export default function HomeScreen() {
     useEffect(() => {
         setWaypointCtx(null);
         setNeighborCtx(null);
+        setNavigationCtx(null);
     }, []);
 
     return (

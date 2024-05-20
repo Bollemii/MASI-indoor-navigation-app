@@ -80,10 +80,11 @@ export default function AddNeighbor() {
             console.error("Waypoint context is not defined");
             // @ts-expect-error: navigation type is not well defined
             navigation.navigate(routes.home);
-        } else {
-            const getNumberQuery = getWaypointsNumber();
-            runGetNumberQuery(getNumberQuery.query, getNumberQuery.params);
+            return;
         }
+
+        const getNumberQuery = getWaypointsNumber();
+        runGetNumberQuery(getNumberQuery.query, getNumberQuery.params);
     }, [waypointCtx]);
     useEffect(() => {
         if (getNumberResult && getNumberResult.length > 0) {
