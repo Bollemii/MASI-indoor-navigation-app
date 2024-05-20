@@ -18,8 +18,13 @@ export default function AddPoint() {
     const [result, loading, runQuery] = useLazyCypher();
 
     const handleScan = (result) => {
+        if (!result.data) {
+            console.error("QR code is empty");
+            return;
+        }
+
         setId(result.data);
-        // check if waypoint doesn't exists
+
         const query = getWaypointQuery(result.data);
         runQuery(query.query, query.params);
     };

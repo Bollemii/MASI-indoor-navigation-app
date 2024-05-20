@@ -22,6 +22,13 @@ export default function NeighborScan() {
     const [id, setId] = useState("");
 
     const handleScan = (result) => {
+        if (!result.data) {
+            console.error("QR code is empty");
+            return;
+        }
+
+        setId(result.data);
+
         if (waypointCtx.id === result.data) {
             console.log("You cannot connect a waypoint to itself");
             Toast.show("Vous ne pouvez pas connecter un point de passage à lui-même", {
@@ -30,7 +37,6 @@ export default function NeighborScan() {
             return;
         }
 
-        setId(result.data);
         const query = getWaypointQuery(result.data);
         runQuery(query.query, query.params);
     };

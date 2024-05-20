@@ -79,7 +79,15 @@ export default function Destination() {
     }, [waypointsResult]);
     useEffect(() => {
         if (pathResult && pathResult.length > 0) {
-            setPath(pathResult[0]._fields[0].segments);
+            const path = pathResult[0]._fields[0].segments
+            if (!path || path.length === 0) {
+                console.error("Path doesn't exist");
+                Toast.show("Il n'y a pas de chemin entre le point de départ et la destination", {
+                    position: Toast.positions.CENTER,
+                });
+                return;
+            }
+            setPath(path);
 
             // @ts-expect-error: navigation type is not well defined
             navigation.navigate(routes.navigation.navigation);

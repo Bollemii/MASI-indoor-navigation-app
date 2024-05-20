@@ -10,7 +10,7 @@ import { useNavigationContext } from "@/context/navigationContext";
 
 export default function End() {
     const navigation = useNavigation();
-    const { navigationCtx, setNavigationCtx } = useNavigationContext();
+    const { navigationCtx } = useNavigationContext();
 
     const handlePress = () => {
         // @ts-expect-error: navigation type is not well defined
@@ -24,8 +24,6 @@ export default function End() {
             navigation.navigate(routes.home);
             return;
         }
-
-        setNavigationCtx(null);
     }, []);
 
     return (

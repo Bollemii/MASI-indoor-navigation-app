@@ -18,6 +18,11 @@ export default function StartScan() {
     const [id, setId] = useState("");
 
     const handleScan = (result) => {
+        if (!result.data) {
+            console.error("QR code is empty");
+            return;
+        }
+
         setId(result.data);
 
         const query = getWaypointQuery(result.data);
