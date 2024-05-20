@@ -6,14 +6,23 @@ import { Transform } from "@fortawesome/fontawesome-svg-core";
 interface NavigateIconProps {
     color: string;
     size?: number;
-    rotate?: number;
+    orientation?: number;
+    magnetometerAngle?: number;
 };
 
 export default function NavigateIcon(props: NavigateIconProps) {
     const size = props.size || 100;
-    const transform : Transform = {
-        rotate: -45 + (props.rotate || 0),
-    };
+    
+    const getRotation = (): number => {
+        if (props.magnetometerAngle && props.orientation) {
+            return (props.orientation - props.magnetometerAngle) % 360;
+        } else if (props.orientation) {
+            return props.orientation;
+        } else {
+            return 0;
+        }
+    }
+    const transform : Transform = {rotate: -45 + getRotation()};
 
     return (
         <View style={[styles.container, {transform: [{translateX: -(size/2)}],}]}>

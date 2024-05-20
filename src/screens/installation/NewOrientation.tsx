@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
 import { colors } from "@/styles/colors";
@@ -10,6 +11,7 @@ import Button from "@/components/Button";
 import NavigateIcon from "@/components/NavigateIcon";
 import NextButton from "@/components/NextButton";
 import BackButton from "@/components/BackButton";
+import { useMagnetometer } from "@/hooks/useMagnetometer";
 import { useWaypointContext } from "@/context/waypointContext";
 import { useNeighborContext } from "@/context/neighborContext";
 
@@ -17,12 +19,21 @@ export default function NewOrientation() {
     const navigation = useNavigation();
     const { waypointCtx, setWaypointCtx } = useWaypointContext();
     const { neighborCtx, setNeighborCtx } = useNeighborContext();
-    const [orientation, setOrientation] = useState(0);
+    const [orientation, setOrientation] = useState(-1);
+    const magnetometerAngle = useMagnetometer();
 
     const handlePress = () => {
-        setOrientation(0)
+        setOrientation(magnetometerAngle)
     };
     const handlePressDone = () => {
+        if (orientation === -1) {
+            console.log("Orientation is not defined");
+            Toast.show("Define the orientation first", {
+                position: Toast.positions.CENTER,
+            });
+            return;
+        }
+
         const neighbor = neighborCtx;
         neighbor.toOrientation = orientation
 
@@ -57,7 +68,11 @@ export default function NewOrientation() {
                 buttonStyle={styles.button}
                 textStyle={styles.buttonText}
             />
-            <NavigateIcon color={colors.black} rotate={orientation}/>
+            <NavigateIcon
+                color={colors.black}
+                orientation={orientation === -1 ? undefined : orientation}
+                magnetometerAngle={magnetometerAngle}
+            />
             <NextButton text="Enregistrer" onPress={handlePressDone}/>
         </View>
     );

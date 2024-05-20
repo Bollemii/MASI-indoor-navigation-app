@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -6,14 +7,23 @@ import { colors } from '@/styles/colors';
 import { fonts } from '@/styles/fonts';
 import { layout } from '@/styles/layout';
 import Button from '@/components/Button';
+import { useWaypointContext } from '@/context/waypointContext';
+import { useNeighborContext } from '@/context/neighborContext';
 
 export default function HomeScreen() {
     const navigation = useNavigation();
+    const { setWaypointCtx } = useWaypointContext();
+    const { setNeighborCtx } = useNeighborContext();
 
     const navigateTo = (screen: string) => {
         // @ts-expect-error: navigation type is not well defined
         navigation.navigate(screen);
     }
+
+    useEffect(() => {
+        setWaypointCtx(null);
+        setNeighborCtx(null);
+    }, []);
 
     return (
         <View style={styles.container}>
