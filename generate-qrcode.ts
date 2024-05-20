@@ -2,7 +2,7 @@
 
 const fs = require('fs');
 const QRCode = require('qrcode');
-const { v1: uuidv1 } = require('uuid');
+const { v4: uuidv4 } = require('uuid');
 
 const FOLDER = 'qr-codes';
 
@@ -17,13 +17,12 @@ const FOLDER = 'qr-codes';
 const args = process.argv.slice(2);
 const number = parseInt(args[0]) || 1;
 
-if (fs.existsSync(FOLDER)) {
-    fs.rmSync(FOLDER, { recursive: true });
+if (!fs.existsSync(FOLDER)) {
+    fs.mkdirSync(FOLDER);
 }
-fs.mkdirSync(FOLDER);
 
 for (let i = 0; i < number; i++) {
-    const uuid = uuidv1();
+    const uuid = uuidv4();
     QRCode.toFile(`${FOLDER}/${uuid}.png`, uuid, {
         color: {
             dark: '#000',
