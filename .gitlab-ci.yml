@@ -1,0 +1,26 @@
+eas-test:
+  stage: test
+  image: node:alpine
+  allow_failure: true
+  before_script:
+    - npm install -g expo-cli
+    - npm install
+  script:
+    - echo "Testing the app..."
+    - npx tsc
+    - npx expo-doctor
+
+eas-build:
+  stage: release
+  image: node:alpine
+  variables:
+    EAS_BUILD_PROFILE: preview
+  before_script:
+    - apk --update add git
+    - npm install -g expo-cli eas-cli
+    - npm install
+  script:
+    - echo "Building the app..."
+    - eas build --platform android --profile preview --non-interactive --no-wait
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
