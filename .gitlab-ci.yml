@@ -33,6 +33,7 @@ eas-build:
     - npm install
   script:
     - echo "Building the app..."
+    - eas secret:push --scope project --env-file .env
     - eas build --platform android --profile preview --non-interactive --no-wait
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
