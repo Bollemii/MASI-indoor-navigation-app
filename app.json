@@ -23,6 +23,11 @@
     "web": {
       "favicon": "./assets/icon-app.png"
     },
+    "extra": {
+      "eas": {
+        "projectId": "53c1546a-e1c6-48ab-91a7-68d8eae62f69"
+      }
+    },
     "owner": "bollemi"
   }
 }
