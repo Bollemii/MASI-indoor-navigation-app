@@ -18,7 +18,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon-app.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.bollemi.navigationapp"
     },
     "web": {
       "favicon": "./assets/icon-app.png"
