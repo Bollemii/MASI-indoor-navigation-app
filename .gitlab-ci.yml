@@ -33,7 +33,10 @@ eas-build:
     - npm install
   script:
     - echo "Building the app..."
-    - eas secret:push --scope project --env-file .env
+    - eas secret:create --scope project --name EXPO_PUBLIC_NEO4J_URI --value $EXPO_PUBLIC_NEO4J_URI --type string
+    - eas secret:create --scope project --name EXPO_PUBLIC_NEO4J_DATABASE --value $EXPO_PUBLIC_NEO4J_DATABASE --type string
+    - eas secret:create --scope project --name EXPO_PUBLIC_NEO4J_USER --value $EXPO_PUBLIC_NEO4J_USER --type string
+    - eas secret:create --scope project --name EXPO_PUBLIC_NEO4J_PASSWORD --value $EXPO_PUBLIC_NEO4J_PASSWORD --type string
     - eas build --platform android --profile preview --non-interactive --no-wait
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
