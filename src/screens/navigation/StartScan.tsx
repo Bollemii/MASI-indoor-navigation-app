@@ -22,6 +22,7 @@ export default function StartScan() {
             console.error("QR code is empty");
             return;
         }
+        if (id === result) return;
 
         setId(result);
 

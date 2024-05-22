@@ -5,7 +5,7 @@ import { StageChange } from "@/models/neighbor";
 type Path = {
     start: { properties: Waypoint }
     end: { properties: Waypoint }
-    relationship: { properties: { distance: number, orientation?: number, stageChange?: StageChange } }
+    relationship: { properties: { distance: number, orientation?: number, stage?: StageChange } }
 };
 type NavigationContextType = {
     start: Waypoint | null;

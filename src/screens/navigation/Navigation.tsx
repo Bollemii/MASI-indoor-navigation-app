@@ -28,15 +28,16 @@ export default function Navigation() {
     const [idScanned, setIdScanned] = useState("");
     const [id, setId] = useState(0);
 
-    const handleScan = (result) => {
-        if (!result.data) {
+    const handleScan = (result: string) => {
+        if (!result) {
             console.error("QR code is empty");
             return;
         }
+        if (idScanned === result) return;
 
-        setIdScanned(result.data);
+        setIdScanned(result);
 
-        const waypointQuery = getWaypointQuery(result.data);
+        const waypointQuery = getWaypointQuery(result);
         runWaypointQuery(waypointQuery.query, waypointQuery.params);
     };
 
@@ -66,7 +67,7 @@ export default function Navigation() {
     useEffect(() => {
         const path = navigationCtx.path[id];
         if (WaypointTypeStages.includes(path.start.properties.type) && WaypointTypeStages.includes(path.end.properties.type)) {
-            setStage(path.relationship.properties.stageChange);
+            setStage(path.relationship.properties.stage);
             setOrientation(undefined);
         } else {
             setOrientation(path.relationship.properties.orientation)

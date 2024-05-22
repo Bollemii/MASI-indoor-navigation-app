@@ -22,6 +22,7 @@ export default function AddPoint() {
             console.error("QR code is empty");
             return;
         }
+        if (id === result) return;
 
         setId(result);
 
