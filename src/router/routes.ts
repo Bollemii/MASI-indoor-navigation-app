@@ -5,6 +5,7 @@ export const routes = {
         informations: "Informations",
         addNeighbor: "AddNeighbor",
         neighborScan: "NeighborScan",
+        setStageChange: "SetStageChange",
         newOrientation: "NewOrientation",
         neighborOrientation: "NeighborOrientation",
     },

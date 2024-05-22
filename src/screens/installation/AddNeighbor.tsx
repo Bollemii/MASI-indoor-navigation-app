@@ -82,10 +82,16 @@ export default function AddNeighbor() {
             navigation.navigate(routes.home);
             return;
         }
+
         setNeighborCtx(null);
         const getNumberQuery = getWaypointsNumber();
         runGetNumberQuery(getNumberQuery.query, getNumberQuery.params);
     }, [waypointCtx]);
+    useEffect(() => {
+        if (process.env.EXPO_PUBLIC_VERBOSE || false) {
+            console.log("Waypoint context", waypointCtx);
+        }
+    }, [waypointCtx.neighbors.length]);
     useEffect(() => {
         if (getNumberResult && getNumberResult.length > 0) {
             setWaypointsNumber(getNumberResult[0]._fields[0].low);
@@ -101,7 +107,7 @@ export default function AddNeighbor() {
                 finish();
             } else {
                 waypointCtx.neighbors.forEach((neighbor) => {
-                    const neighborQuery = addNeighborQuery(waypointCtx.id, neighbor);
+                    const neighborQuery = addNeighborQuery(waypointCtx, neighbor);
                     runNeighborQuery(neighborQuery.query, neighborQuery.params);
                 });
             }

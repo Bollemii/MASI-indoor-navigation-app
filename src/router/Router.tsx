@@ -9,9 +9,10 @@ import NotFound from "@/screens/NotFound";
 import AddPoint from "@/screens/installation/AddPoint";
 import Informations from "@/screens/installation/Informations";
 import AddNeighbor from "@/screens/installation/AddNeighbor";
-import NeighborOrientation from "@/screens/installation/NeighborOrientation";
 import NeighborScan from "@/screens/installation/NeighborScan";
+import SetStageChange from "@/screens/installation/SetStageChange";
 import NewOrientation from "@/screens/installation/NewOrientation";
+import NeighborOrientation from "@/screens/installation/NeighborOrientation";
 // Navigation screens
 import StartScan from "@/screens/navigation/StartScan";
 import Destination from "@/screens/navigation/Destination";
@@ -42,6 +43,7 @@ export default function Router() {
                     <Stack.Screen name={routes.installation.informations} component={Informations}/>
                     <Stack.Screen name={routes.installation.addNeighbor} component={AddNeighbor}/>
                     <Stack.Screen name={routes.installation.neighborScan} component={NeighborScan}/>
+                    <Stack.Screen name={routes.installation.setStageChange} component={SetStageChange}/>
                     <Stack.Screen name={routes.installation.newOrientation} component={NewOrientation}/>
                     <Stack.Screen name={routes.installation.neighborOrientation} component={NeighborOrientation}/>
                 </Stack.Group>

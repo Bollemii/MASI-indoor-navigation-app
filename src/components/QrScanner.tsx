@@ -15,9 +15,6 @@ interface QrScannerProps {
     backRedirect?: string;
 }
 
-// It is only for testing
-const automaticScan = false;
-
 export default function QrScanner(props: QrScannerProps) {
     const [permission, requestPermission] = useCameraPermissions();
     const [wantScanned, setWantScanned] = useState(false);
@@ -38,7 +35,7 @@ export default function QrScanner(props: QrScannerProps) {
         <CameraView
             style={styles.camera}
             barcodeScannerSettings={{barcodeTypes:["qr"]}}
-            onBarcodeScanned={automaticScan || wantScanned ? (result) => {props.handleScan(result.data); setWantScanned(false)} : undefined}
+            onBarcodeScanned={process.env.EXPO_PUBLIC_AUTOMATIC_SCAN || wantScanned ? (result) => {props.handleScan(result.data); setWantScanned(false)} : undefined}
         >
             <BackButton text="Retour" pageRedirect={props.backRedirect || routes.home}/>
             <View style={styles.instructionsArea}>

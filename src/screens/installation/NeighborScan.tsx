@@ -13,6 +13,7 @@ import { useLazyCypher } from "@/hooks/useLazyCypher";
 import usePedometer from "@/hooks/usePedometer";
 import { useWaypointContext } from "@/context/waypointContext";
 import { useNeighborContext } from "@/context/neighborContext";
+import { WaypointTypeStages } from "@/models/waypointType";
 
 export default function NeighborScan() {
     const navigation = useNavigation();
@@ -67,11 +68,17 @@ export default function NeighborScan() {
             } else {
                 const neighbor = new Neighbor()
                 neighbor.id = id;
+                neighbor.type = waypoint.type;
                 neighbor.distance = steps;
                 setNeighborCtx(neighbor);
 
-                // @ts-expect-error: navigation type is not well defined
-                navigation.navigate(routes.installation.newOrientation);
+                if (WaypointTypeStages.includes(waypointCtx.type) && WaypointTypeStages.includes(waypoint.type)) {
+                    // @ts-expect-error: navigation type is not well defined
+                    navigation.navigate(routes.installation.setStageChange);
+                } else {
+                    // @ts-expect-error: navigation type is not well defined
+                    navigation.navigate(routes.installation.newOrientation);
+                }
             }
         }        
     }, [result]);

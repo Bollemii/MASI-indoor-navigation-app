@@ -29,7 +29,8 @@ export namespace names {
         name: "CONNECTED_TO",
         properties: {
             distance: "distance",
-            orientation: "orientation"
+            orientation: "orientation",
+            stageChange: "stage"
         }
     };
 };

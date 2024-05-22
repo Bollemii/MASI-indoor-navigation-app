@@ -1,45 +1,33 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
 import { colors } from "@/styles/colors";
-import { fonts } from "@/styles/fonts";
 import { layout } from "@/styles/layout";
-import Button from "@/components/Button";
-import NavigateIcon from "@/components/NavigateIcon";
-import NextButton from "@/components/NextButton";
+import { fonts } from "@/styles/fonts";
+import { StageChange } from "@/models/neighbor";
 import BackButton from "@/components/BackButton";
-import { useMagnetometer } from "@/hooks/useMagnetometer";
-import { useWaypointContext } from "@/context/waypointContext";
+import Button from "@/components/Button";
 import { useNeighborContext } from "@/context/neighborContext";
+import { useWaypointContext } from "@/context/waypointContext";
 
-export default function NewOrientation() {
+export default function SetStageChange() {
     const navigation = useNavigation();
-    const { waypointCtx } = useWaypointContext();
+    const { waypointCtx, setWaypointCtx } = useWaypointContext();
     const { neighborCtx, setNeighborCtx } = useNeighborContext();
-    const [orientation, setOrientation] = useState(-1);
-    const magnetometerAngle = useMagnetometer();
 
-    const handlePress = () => {
-        setOrientation(magnetometerAngle)
-    };
-    const handlePressDone = () => {
-        if (orientation === -1) {
-            console.log("Orientation is not defined");
-            Toast.show("Define the orientation first", {
-                position: Toast.positions.CENTER,
-            });
-            return;
-        }
-
+    const handlePress = (stageChange : StageChange) => {
         const neighbor = neighborCtx;
-        neighbor.toOrientation = orientation
-        setNeighborCtx(neighbor)
+        neighbor.fromStage = stageChange;
+        neighbor.toStage = -stageChange;
+        const waypoint = waypointCtx;
+        waypoint.addNeighbor(neighbor);
+        setWaypointCtx(waypoint);
+        setNeighborCtx(null)
 
         // @ts-expect-error: navigation type is not well defined
-        navigation.navigate(routes.installation.neighborOrientation)
+        navigation.navigate(routes.installation.addNeighbor)
     };
 
     useEffect(() => {
@@ -58,18 +46,21 @@ export default function NewOrientation() {
         <View style={styles.container}>
             <BackButton text="Annuler" pageRedirect={routes.installation.addNeighbor}/>
             <Text style={styles.title}>Connexion avec un point de passage voisin</Text>
-            <Button
-                text="Le nouveau est par là !"
-                onPress={handlePress}
-                buttonStyle={styles.button}
-                textStyle={styles.buttonText}
-            />
-            <NavigateIcon
-                color={colors.black}
-                orientation={orientation === -1 ? undefined : orientation}
-                magnetometerAngle={magnetometerAngle}
-            />
-            <NextButton text="Enregistrer" onPress={handlePressDone}/>
+            <Text style={styles.text}>Pour atteindre le voisin :</Text>
+            <View style={styles.buttonContainer}>
+                <Button
+                    text="J'ai monté un étage"
+                    onPress={() => {handlePress(StageChange.UP)}}
+                    buttonStyle={styles.button}
+                    textStyle={styles.buttonText}
+                />
+                <Button
+                    text="J'ai descendu un étage"
+                    onPress={() => {handlePress(StageChange.DOWN)}}
+                    buttonStyle={styles.button}
+                    textStyle={styles.buttonText}
+                />
+            </View>
         </View>
     );
 };
@@ -88,17 +79,28 @@ const styles = StyleSheet.create({
         marginBottom: 100,
         marginTop: 170,
     },
+    text: {
+        fontSize: fonts.size.high,
+        color: colors.white,
+        textAlign: 'center',
+        marginBottom: 20,
+    },
+    buttonContainer: {
+        width: '100%',
+        height: '25%',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
     button: {
-        width: 200,
-        height: 200,
-        borderRadius: 100,
+        height: 70,
+        width: '50%',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: layout.padding,
+        borderRadius: layout.borderRadius.normal,
     },
     buttonText: {
-        fontSize: 18,
-        textAlign: 'center',
         color: colors.white,
+        textAlign: 'center',
+        fontSize: 16,
     },
 });

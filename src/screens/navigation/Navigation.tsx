@@ -17,9 +17,6 @@ import { useLazyCypher } from "@/hooks/useLazyCypher";
 import { useNavigationContext } from "@/context/navigationContext";
 import { layout } from "@/styles/layout";
 
-// It is only for testing
-const verboseLog = process.env.EXPO_PUBLIC_VERBOSE || false;
-
 export default function Navigation() {
     const navigation = useNavigation();
     const { navigationCtx, setPath } = useNavigationContext();
@@ -50,7 +47,7 @@ export default function Navigation() {
             navigation.navigate(routes.home);
         }
 
-        if (verboseLog) {
+        if (process.env.EXPO_PUBLIC_VERBOSE || false) {
             console.log("NAVIGATION");
             navigationCtx.path.forEach((path) => {
                 console.log("=============NEXT POINT=============")
