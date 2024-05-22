@@ -5,17 +5,17 @@ import { colors } from "@/styles/colors";
 import { fonts } from '@/styles/fonts';
 import { layout } from "@/styles/layout";
 import Button from "@/components/Button";
+import { RootStackParamList } from "@/router/routes";
 
 interface BackButtonProps {
     text: string;
-    pageRedirect: string;
+    pageRedirect: keyof RootStackParamList;
 };
 
 export default function BackButton(props: BackButtonProps) {
     const navigation = useNavigation();
 
     const handlePress = () => {
-        // @ts-expect-error: navigation type is not well defined
         navigation.navigate(props.pageRedirect);
     };
 

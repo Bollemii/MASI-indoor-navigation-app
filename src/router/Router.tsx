@@ -2,7 +2,7 @@ import { Text } from "react-native";
 import { NavigationContainer, useNavigationContainerRef } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { routes } from "@/router/routes";
+import { RootStackParamList } from "@/router/routes";
 import HomeScreen from "@/screens/HomeScreen";
 import NotFound from "@/screens/NotFound";
 // Installation screens
@@ -19,13 +19,18 @@ import Destination from "@/screens/navigation/Destination";
 import Navigation from "@/screens/navigation/Navigation";
 import End from "@/screens/navigation/End";
 
+declare global {
+    namespace ReactNavigation {
+      interface RootParamList extends RootStackParamList {}
+    }
+  }
+
 export default function Router() {
-    const Stack = createNativeStackNavigator();
+    const Stack = createNativeStackNavigator<RootStackParamList>();
     const navigationRef = useNavigationContainerRef();
 
     const handleError = (error: any) => {
         console.log("Unhandled routing action", error);
-        // @ts-expect-error: navigation type is not well defined
         navigationRef.navigate("*");
     };
 
@@ -35,24 +40,24 @@ export default function Router() {
             ref={navigationRef}
             onUnhandledAction={handleError}
         >
-            <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={routes.home}>
-                <Stack.Screen name={routes.home} component={HomeScreen}/>
+            <Stack.Navigator screenOptions={{headerShown: false}} initialRouteName={"Home"}>
+                <Stack.Screen name={"Home"} component={HomeScreen}/>
                 {/* Installation screens */}
                 <Stack.Group>
-                    <Stack.Screen name={routes.installation.addPoint} component={AddPoint}/>
-                    <Stack.Screen name={routes.installation.informations} component={Informations}/>
-                    <Stack.Screen name={routes.installation.addNeighbor} component={AddNeighbor}/>
-                    <Stack.Screen name={routes.installation.neighborScan} component={NeighborScan}/>
-                    <Stack.Screen name={routes.installation.setStageChange} component={SetStageChange}/>
-                    <Stack.Screen name={routes.installation.newOrientation} component={NewOrientation}/>
-                    <Stack.Screen name={routes.installation.neighborOrientation} component={NeighborOrientation}/>
+                    <Stack.Screen name={"AddPoint"} component={AddPoint}/>
+                    <Stack.Screen name={"Informations"} component={Informations}/>
+                    <Stack.Screen name={"AddNeighbor"} component={AddNeighbor}/>
+                    <Stack.Screen name={"NeighborScan"} component={NeighborScan}/>
+                    <Stack.Screen name={"SetStageChange"} component={SetStageChange}/>
+                    <Stack.Screen name={"NewOrientation"} component={NewOrientation}/>
+                    <Stack.Screen name={"NeighborOrientation"} component={NeighborOrientation}/>
                 </Stack.Group>
                 {/* Navigation screens */}
                 <Stack.Group>
-                    <Stack.Screen name={routes.navigation.startScan} component={StartScan}/>
-                    <Stack.Screen name={routes.navigation.destination} component={Destination}/>
-                    <Stack.Screen name={routes.navigation.navigation} component={Navigation}/>
-                    <Stack.Screen name={routes.navigation.end} component={End}/>
+                    <Stack.Screen name={"StartScan"} component={StartScan}/>
+                    <Stack.Screen name={"Destination"} component={Destination}/>
+                    <Stack.Screen name={"Navigation"} component={Navigation}/>
+                    <Stack.Screen name={"End"} component={End}/>
                 </Stack.Group>
                 <Stack.Screen name="*" component={NotFound}/>
             </Stack.Navigator>

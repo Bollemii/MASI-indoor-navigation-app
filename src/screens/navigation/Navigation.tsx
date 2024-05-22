@@ -44,8 +44,7 @@ export default function Navigation() {
     useEffect(() => {
         if (!navigationCtx) {
             console.error("Navigation context is not set");
-            // @ts-expect-error: navigation type is not well defined
-            navigation.navigate(routes.home);
+            navigation.navigate(routes.HOME);
         }
 
         if (process.env.EXPO_PUBLIC_VERBOSE || false) {
@@ -86,8 +85,7 @@ export default function Navigation() {
         if (waypoint.id === navigationCtx.end.id) {
             console.log("Destination reached");
 
-            // @ts-expect-error: navigation type is not well defined
-            navigation.navigate(routes.navigation.end);
+            navigation.navigate(routes.END);
             return;
         }
 

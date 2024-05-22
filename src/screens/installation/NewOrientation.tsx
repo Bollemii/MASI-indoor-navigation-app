@@ -38,25 +38,22 @@ export default function NewOrientation() {
         neighbor.toOrientation = orientation
         setNeighborCtx(neighbor)
 
-        // @ts-expect-error: navigation type is not well defined
-        navigation.navigate(routes.installation.neighborOrientation)
+        navigation.navigate(routes.NEIGHBOR_ORIENTATION)
     };
 
     useEffect(() => {
         if (!waypointCtx) {
             console.error("Waypoint context is not defined");
-            // @ts-expect-error: navigation type is not well defined
-            navigation.navigate(routes.home);
+            navigation.navigate(routes.HOME);
         } else if (!neighborCtx) {
             console.error("Neighbor is not defined");
-            // @ts-expect-error: navigation type is not well defined
-            navigation.navigate(routes.installation.addNeighbor);
+            navigation.navigate(routes.ADD_NEIGHBOR);
         }
     }, []);
 
     return (
         <View style={styles.container}>
-            <BackButton text="Annuler" pageRedirect={routes.installation.addNeighbor}/>
+            <BackButton text="Annuler" pageRedirect={routes.ADD_NEIGHBOR}/>
             <Text style={styles.title}>Connexion avec un point de passage voisin</Text>
             <Button
                 text="Le nouveau est par là !"

@@ -60,8 +60,7 @@ export default function Destination() {
     useEffect(() => {
         if (!navigationCtx || !navigationCtx.start) {
             console.error("Navigation context is not set");
-            // @ts-expect-error: navigation type is not well defined
-            navigation.navigate(routes.home);
+            navigation.navigate(routes.HOME);
             return;
         }
 
@@ -93,15 +92,14 @@ export default function Destination() {
             }
             setPath(path);
 
-            // @ts-expect-error: navigation type is not well defined
-            navigation.navigate(routes.navigation.navigation);
+            navigation.navigate(routes.NAVIGATION);
         }
     }, [pathResult]);
 
     return (
         <View style={styles.container}>
             <Loader loading={waypointsLoading || pathLoading}/>
-            <BackButton text="Quitter" pageRedirect={routes.home}/>
+            <BackButton text="Quitter" pageRedirect={routes.HOME}/>
             <Text style={styles.title}>Destination</Text>
             <View style={styles.inputContainer}>
                 <Text style={styles.inputLabel}>La destination</Text>

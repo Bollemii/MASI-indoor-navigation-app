@@ -45,8 +45,7 @@ export default function AddPoint() {
             const newWaypoint = new Waypoint(id);
             setWaypointCtx(newWaypoint);
 
-            // @ts-expect-error: navigation type is not well defined
-            navigation.navigate(routes.installation.informations);
+            navigation.navigate(routes.INFORMATIONS);
         }
     }, [result]);
 

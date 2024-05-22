@@ -38,8 +38,7 @@ export default function AddNeighbor() {
             return;
         }
 
-        // @ts-expect-error: navigation type is not well defined
-        navigation.navigate(routes.installation.neighborScan);
+        navigation.navigate(routes.NEIGHBOR_SCAN);
     };
     const rejectFinish = () => {
         console.log("You must connect the waypoint to at least one neighbor before finishing the installation.");
@@ -69,8 +68,7 @@ export default function AddNeighbor() {
         setWaypointCtx(null);
         setNeighborCtx(null);
 
-        // @ts-expect-error: navigation type is not well defined
-        navigation.navigate(routes.home);
+        navigation.navigate(routes.HOME);
     }
 
     useEffect(() => {
@@ -78,8 +76,7 @@ export default function AddNeighbor() {
 
         if (!waypointCtx) {
             console.error("Waypoint context is not defined");
-            // @ts-expect-error: navigation type is not well defined
-            navigation.navigate(routes.home);
+            navigation.navigate(routes.HOME);
             return;
         }
 
@@ -134,7 +131,7 @@ export default function AddNeighbor() {
     return (
         <View style={styles.container}>
             <Loader loading={getNumberloading || createLoading || neighborLoading}/>
-            <BackButton text="Annuler" pageRedirect={routes.home}/>
+            <BackButton text="Annuler" pageRedirect={routes.HOME}/>
             <Text style={styles.title}>Ajout d'un nouveau point de passage</Text>
             <Button
                 text="Connecter à un point de passage voisin"

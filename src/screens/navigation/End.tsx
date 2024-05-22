@@ -13,15 +13,13 @@ export default function End() {
     const { navigationCtx } = useNavigationContext();
 
     const handlePress = () => {
-        // @ts-expect-error: navigation type is not well defined
-        navigation.navigate(routes.home);
+        navigation.navigate(routes.HOME);
     };
 
     useEffect(() => {
         if (!navigationCtx) {
             console.error("Navigation context is not defined");
-            // @ts-expect-error: navigation type is not well defined
-            navigation.navigate(routes.home);
+            navigation.navigate(routes.HOME);
             return;
         }
     }, []);

@@ -38,21 +38,19 @@ export default function Informations() {
         waypoint.name = name.trim();
         waypoint.type = type;
         setWaypointCtx(waypoint);
-        // @ts-expect-error: navigation type is not well defined
-        navigation.navigate(routes.installation.addNeighbor);
+        navigation.navigate(routes.ADD_NEIGHBOR);
     };
 
     useEffect(() => {
         if (!waypointCtx) {
             console.error("Waypoint context is not defined");
-            // @ts-expect-error: navigation type is not well defined
-            navigation.navigate(routes.home);
+            navigation.navigate(routes.HOME);
         }
     }, []);
 
     return (
         <View style={styles.container}>
-            <BackButton text="Annuler" pageRedirect={routes.home}/>
+            <BackButton text="Annuler" pageRedirect={routes.HOME}/>
             <Text style={styles.title}>Ajout d'un nouveau point de passage</Text>
             <View style={styles.inputContainer}>
                 <Text style={styles.label}>Nom</Text>

@@ -47,8 +47,7 @@ export default function NeighborScan() {
     useEffect(() => {
         if (!waypointCtx) {
             console.error("Waypoint context is not defined");
-            // @ts-expect-error: navigation type is not well defined
-            navigation.navigate(routes.home);
+            navigation.navigate(routes.HOME);
         }
     }, []);
     useEffect(() => {
@@ -74,11 +73,9 @@ export default function NeighborScan() {
                 setNeighborCtx(neighbor);
 
                 if (WaypointTypeStages.includes(waypointCtx.type) && WaypointTypeStages.includes(waypoint.type)) {
-                    // @ts-expect-error: navigation type is not well defined
-                    navigation.navigate(routes.installation.setStageChange);
+                    navigation.navigate(routes.SET_STAGE_CHANGE);
                 } else {
-                    // @ts-expect-error: navigation type is not well defined
-                    navigation.navigate(routes.installation.newOrientation);
+                    navigation.navigate(routes.NEW_ORIENTATION);
                 }
             }
         }        
@@ -90,7 +87,7 @@ export default function NeighborScan() {
             <QrScanner
                 instructions="Scannez le QR code du point de passage voisin"
                 handleScan={handleScan}
-                backRedirect={routes.installation.addNeighbor}
+                backRedirect={routes.ADD_NEIGHBOR}
             />
         </View>
     );

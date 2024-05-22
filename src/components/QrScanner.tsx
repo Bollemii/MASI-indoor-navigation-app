@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 
-import { routes } from "@/router/routes";
+import { RootStackParamList, routes } from "@/router/routes";
 import { colors } from "@/styles/colors";
 import { fonts } from '@/styles/fonts';
 import { layout } from "@/styles/layout";
@@ -12,7 +12,7 @@ import NextButton from "@/components/NextButton";
 interface QrScannerProps {
     instructions: string;
     handleScan: (result: string) => void;
-    backRedirect?: string;
+    backRedirect?: keyof RootStackParamList;
 }
 
 export default function QrScanner(props: QrScannerProps) {
@@ -37,7 +37,7 @@ export default function QrScanner(props: QrScannerProps) {
             barcodeScannerSettings={{barcodeTypes:["qr"]}}
             onBarcodeScanned={process.env.EXPO_PUBLIC_AUTOMATIC_SCAN || wantScanned ? (result) => {props.handleScan(result.data); setWantScanned(false)} : undefined}
         >
-            <BackButton text="Retour" pageRedirect={props.backRedirect || routes.home}/>
+            <BackButton text="Retour" pageRedirect={props.backRedirect || routes.HOME}/>
             <View style={styles.instructionsArea}>
                 {instructions.map((instruction, index) => (
                     <Text key={index} style={styles.instructions}>{instruction}</Text>

@@ -43,8 +43,7 @@ export default function StartScan() {
             const waypoint = result[0]._fields[0].properties as Waypoint;
             if (waypoint) {
                 setStart(waypoint);
-                // @ts-expect-error: navigation type is not well defined
-                navigation.navigate(routes.navigation.destination);
+                navigation.navigate(routes.DESTINATION);
             }
         }
     }, [result]);

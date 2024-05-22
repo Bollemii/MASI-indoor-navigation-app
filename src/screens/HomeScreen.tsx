@@ -17,11 +17,6 @@ export default function HomeScreen() {
     const { setNeighborCtx } = useNeighborContext();
     const { setNavigationCtx } = useNavigationContext();
 
-    const navigateTo = (screen: string) => {
-        // @ts-expect-error: navigation type is not well defined
-        navigation.navigate(screen);
-    }
-
     useEffect(() => {
         setWaypointCtx(null);
         setNeighborCtx(null);
@@ -34,13 +29,13 @@ export default function HomeScreen() {
             <View style={styles.buttonContainer}>
                 <Button
                     text='Ajouter un nouveau\npoint de passage'
-                    onPress={() => (navigateTo(routes.installation.addPoint))}
+                    onPress={() => (navigation.navigate(routes.ADD_POINT))}
                     buttonStyle={styles.button}
                     textStyle={styles.buttonText}
                 />
                 <Button
                     text='Navigation'
-                    onPress={() => {navigateTo(routes.navigation.startScan)}}
+                    onPress={() => {navigation.navigate(routes.START_SCAN)}}
                     buttonStyle={styles.button}
                     textStyle={styles.buttonText}
                 />
