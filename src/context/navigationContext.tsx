@@ -1,10 +1,11 @@
 import { createContext, useContext, useState } from "react";
 import { Waypoint } from "@/models/waypoint";
+import { StageChange } from "@/models/neighbor";
 
 type Path = {
     start: { properties: Waypoint }
     end: { properties: Waypoint }
-    relationship: { properties: { distance: number, orientation: number } }
+    relationship: { properties: { distance: number, orientation?: number, stageChange?: StageChange } }
 };
 type NavigationContextType = {
     start: Waypoint | null;

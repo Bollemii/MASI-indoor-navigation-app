@@ -25,7 +25,7 @@ export default function NavigateIcon(props: NavigateIconProps) {
     const transform : Transform = {rotate: -45 + getRotation()};
 
     return (
-        <View style={[styles.container, {transform: [{translateX: -(size/2)}],}]}>
+        <View style={styles.container}>
             <FontAwesomeIcon
                 icon={faLocationArrow}
                 size={size}
@@ -40,6 +40,5 @@ const styles = StyleSheet.create({
     container: {
         position: 'absolute',
         bottom: 80,
-        left: "50%",
     },
 });

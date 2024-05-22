@@ -17,15 +17,15 @@ export default function StartScan() {
     const [result, loading, runQuery] = useLazyCypher();
     const [id, setId] = useState("");
 
-    const handleScan = (result) => {
-        if (!result.data) {
+    const handleScan = (result: string) => {
+        if (!result) {
             console.error("QR code is empty");
             return;
         }
 
-        setId(result.data);
+        setId(result);
 
-        const query = getWaypointQuery(result.data);
+        const query = getWaypointQuery(result);
         runQuery(query.query, query.params);
     };
 

@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { BarcodeScanningResult, CameraView, useCameraPermissions } from "expo-camera";
-//import Toast from "react-native-root-toast";
+import { CameraView, useCameraPermissions } from "expo-camera";
 
 import { routes } from "@/router/routes";
 import { colors } from "@/styles/colors";
@@ -12,7 +11,7 @@ import NextButton from "@/components/NextButton";
 
 interface QrScannerProps {
     instructions: string;
-    handleScan: (result: BarcodeScanningResult) => void;
+    handleScan: (result: string) => void;
     backRedirect?: string;
 }
 
@@ -39,7 +38,7 @@ export default function QrScanner(props: QrScannerProps) {
         <CameraView
             style={styles.camera}
             barcodeScannerSettings={{barcodeTypes:["qr"]}}
-            onBarcodeScanned={automaticScan || wantScanned ? (result) => {props.handleScan(result); setWantScanned(false)} : undefined}
+            onBarcodeScanned={automaticScan || wantScanned ? (result) => {props.handleScan(result.data); setWantScanned(false)} : undefined}
         >
             <BackButton text="Retour" pageRedirect={props.backRedirect || routes.home}/>
             <View style={styles.instructionsArea}>
@@ -56,6 +55,8 @@ const styles = StyleSheet.create({
     camera: {
         flex: 1,
         alignItems: 'center',
+        width: '100%',
+        height: '100%',
     },
     instructionsArea: {
         position: 'absolute',

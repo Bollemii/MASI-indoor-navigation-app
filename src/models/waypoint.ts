@@ -8,7 +8,7 @@ export class Waypoint {
     private _neighbors: Neighbor[];
 
     constructor(id: string) {
-        this._id = id;
+        this.id = id;
         this._neighbors = [];
     }
 

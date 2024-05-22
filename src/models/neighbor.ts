@@ -1,8 +1,14 @@
+export enum StageChange {
+    UP = 1,
+    DOWN = -1
+};
+
 export class Neighbor {
     private _id: string;
     private _distance: number;
-    private _fromOrientation: number; // waypoint -> neighbor
-    private _toOrientation: number; // neighbor -> waypoint
+    private _fromStage?: StageChange;
+    private _fromOrientation?: number; // waypoint -> neighbor
+    private _toOrientation?: number; // neighbor -> waypoint
 
     constructor() {}
 
@@ -20,6 +26,14 @@ export class Neighbor {
 
     set distance(distance) {
         this._distance = distance;
+    }
+
+    get fromStage() {
+        return this._fromStage;
+    }
+
+    set fromStage(fromStage) {
+        this._fromStage = fromStage;
     }
 
     get fromOrientation() {

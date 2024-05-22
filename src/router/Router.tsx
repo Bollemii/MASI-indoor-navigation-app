@@ -41,9 +41,9 @@ export default function Router() {
                     <Stack.Screen name={routes.installation.addPoint} component={AddPoint}/>
                     <Stack.Screen name={routes.installation.informations} component={Informations}/>
                     <Stack.Screen name={routes.installation.addNeighbor} component={AddNeighbor}/>
-                    <Stack.Screen name={routes.installation.neighborOrientation} component={NeighborOrientation}/>
                     <Stack.Screen name={routes.installation.neighborScan} component={NeighborScan}/>
                     <Stack.Screen name={routes.installation.newOrientation} component={NewOrientation}/>
+                    <Stack.Screen name={routes.installation.neighborOrientation} component={NeighborOrientation}/>
                 </Stack.Group>
                 {/* Navigation screens */}
                 <Stack.Group>

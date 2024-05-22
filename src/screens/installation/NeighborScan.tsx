@@ -5,6 +5,7 @@ import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
 import { Waypoint } from "@/models/waypoint";
+import { Neighbor } from "@/models/neighbor";
 import { getWaypointQuery } from "@/dataaccess/getWaypoint";
 import QrScanner from "@/components/QrScanner";
 import Loader from "@/components/Loader";
@@ -16,20 +17,20 @@ import { useNeighborContext } from "@/context/neighborContext";
 export default function NeighborScan() {
     const navigation = useNavigation();
     const { waypointCtx } = useWaypointContext();
-    const { neighborCtx, setNeighborCtx } = useNeighborContext();
+    const { setNeighborCtx } = useNeighborContext();
     const [result, loading, runQuery] = useLazyCypher();
     const steps = usePedometer();
     const [id, setId] = useState("");
 
-    const handleScan = (result) => {
-        if (!result.data) {
+    const handleScan = (result: string) => {
+        if (!result) {
             console.error("QR code is empty");
             return;
         }
 
-        setId(result.data);
+        setId(result);
 
-        if (waypointCtx.id === result.data) {
+        if (waypointCtx.id === result) {
             console.log("You cannot connect a waypoint to itself");
             Toast.show("Vous ne pouvez pas connecter un point de passage à lui-même", {
                 position: Toast.positions.CENTER,
@@ -37,7 +38,7 @@ export default function NeighborScan() {
             return;
         }
 
-        const query = getWaypointQuery(result.data);
+        const query = getWaypointQuery(result);
         runQuery(query.query, query.params);
     };
 
@@ -46,10 +47,6 @@ export default function NeighborScan() {
             console.error("Waypoint context is not defined");
             // @ts-expect-error: navigation type is not well defined
             navigation.navigate(routes.home);
-        } else if (!neighborCtx) {
-            console.error("Neighbor context is not defined");
-            // @ts-expect-error: navigation type is not well defined
-            navigation.navigate(routes.installation.addNeighbor);
         }
     }, []);
     useEffect(() => {
@@ -68,7 +65,7 @@ export default function NeighborScan() {
                     position: Toast.positions.CENTER,
                 });
             } else {
-                const neighbor = neighborCtx
+                const neighbor = new Neighbor()
                 neighbor.id = id;
                 neighbor.distance = steps;
                 setNeighborCtx(neighbor);

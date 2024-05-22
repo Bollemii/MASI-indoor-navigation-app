@@ -1,18 +1,24 @@
 import { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
 import { colors } from "@/styles/colors";
+import { WaypointTypeStages } from "@/models/waypointType";
+import { StageChange } from "@/models/neighbor";
 import { getShortestPathQuery } from "@/dataaccess/getShortestPath";
+import { getWaypointQuery } from "@/dataaccess/getWaypoint";
 import NavigateIcon from "@/components/NavigateIcon";
 import QrScanner from "@/components/QrScanner";
-import { useMagnetometer } from "@/hooks/useMagnetometer";
-import { useNavigationContext } from "@/context/navigationContext";
 import Loader from "@/components/Loader";
+import { useMagnetometer } from "@/hooks/useMagnetometer";
 import { useLazyCypher } from "@/hooks/useLazyCypher";
-import { getWaypointQuery } from "@/dataaccess/getWaypoint";
-import Toast from "react-native-root-toast";
+import { useNavigationContext } from "@/context/navigationContext";
+import { layout } from "@/styles/layout";
+
+// It is only for testing
+const verboseLog = process.env.EXPO_PUBLIC_VERBOSE || false;
 
 export default function Navigation() {
     const navigation = useNavigation();
@@ -20,7 +26,8 @@ export default function Navigation() {
     const [waypointResult, waypointLoading, runWaypointQuery] = useLazyCypher();
     const [pathResult, pathLoading, runPathQuery] = useLazyCypher();
     const magnetometer = useMagnetometer();
-    const [orientation, setOrientation] = useState(0);
+    const [orientation, setOrientation] = useState<number | undefined>(undefined);
+    const [stage, setStage] = useState<StageChange | undefined>(undefined);
     const [idScanned, setIdScanned] = useState("");
     const [id, setId] = useState(0);
 
@@ -43,14 +50,31 @@ export default function Navigation() {
             navigation.navigate(routes.home);
         }
 
-        console.log("PATH :");
-        console.log("  -",navigationCtx.start.id);
-        navigationCtx.path.forEach((path) => {
-            console.log("  -",path.end.properties.id);
-        });
+        if (verboseLog) {
+            console.log("NAVIGATION");
+            navigationCtx.path.forEach((path) => {
+                console.log("=============NEXT POINT=============")
+                console.log("  -",path.start.properties);
+                console.log("  -",path.relationship.properties);
+                console.log("  -",path.end.properties);
+            });
+        } else {
+            console.log("PATH :");
+            console.log("  -",navigationCtx.start.id);
+            navigationCtx.path.forEach((path) => {
+                console.log("  -",path.end.properties.id);
+            });
+        }
     }, []);
     useEffect(() => {
-        setOrientation(navigationCtx.path[id].relationship.properties.orientation)
+        const path = navigationCtx.path[id];
+        if (WaypointTypeStages.includes(path.start.properties.type) && WaypointTypeStages.includes(path.end.properties.type)) {
+            setStage(path.relationship.properties.stageChange);
+            setOrientation(undefined);
+        } else {
+            setOrientation(path.relationship.properties.orientation)
+            setStage(undefined);
+        }
     }, [id, navigationCtx.path]);
     useEffect(() => {
         if (!idScanned) return;
@@ -94,24 +118,65 @@ export default function Navigation() {
         setId(0);
     }, [pathResult]);
 
-    return (
-        <View style={styles.container}>
-            <Loader loading={waypointLoading || pathLoading}/>
-            <QrScanner
-                instructions="Suivez les indications.\nScannez le QR code du prochain point de passage."
-                handleScan={handleScan}
-            />
-            <NavigateIcon
-                orientation={orientation}
-                color={colors.blue}
-                magnetometerAngle={magnetometer}
-            />
-        </View>
-    );
+    if (orientation) {
+        return (
+            <View style={styles.container}>
+                <Loader loading={waypointLoading || pathLoading}/>
+                <QrScanner
+                    instructions="Suivez les indications.\nScannez le QR code du prochain point de passage."
+                    handleScan={handleScan}
+                />
+                <NavigateIcon
+                    orientation={orientation}
+                    color={colors.blue}
+                    magnetometerAngle={magnetometer}
+                />
+            </View>
+        );
+    } else if (stage) {
+        return (
+            <View style={styles.container}>
+                <Loader loading={waypointLoading || pathLoading}/>
+                <QrScanner
+                    instructions="Suivez les indications.\nScannez le QR code du prochain point de passage."
+                    handleScan={handleScan}
+                />
+                <View style={styles.stageInstructions}>
+                    {stage === StageChange.UP ? (
+                        <Text>Montez d'un étage</Text>
+                    ) : (
+                        <Text>Descendez d'un étage</Text>
+                    )}
+                </View>
+            </View>
+        );
+    } else {
+        return (
+            <View style={styles.container}>
+                <Loader loading={true}/>
+                <QrScanner
+                    instructions="Suivez les indications.\nScannez le QR code du prochain point de passage."
+                    handleScan={() => {}}
+                />
+            </View>
+        );
+    }
 };
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        alignItems: 'center',
+    },
+    stageInstructions: {
+        position: 'absolute',
+        bottom: 80,
+        width: '70%',
+        height: 60,
+        backgroundColor: colors.gray,
+        borderRadius: layout.borderRadius.small,
+        padding: layout.padding,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
 });

@@ -7,7 +7,6 @@ import { routes } from "@/router/routes";
 import { colors } from "@/styles/colors";
 import { fonts } from "@/styles/fonts";
 import { layout } from "@/styles/layout";
-import { Neighbor } from "@/models/neighbor";
 import Button from "@/components/Button";
 import NavigateIcon from "@/components/NavigateIcon";
 import NextButton from "@/components/NextButton";
@@ -19,7 +18,8 @@ import { useNeighborContext } from "@/context/neighborContext";
 export default function NeighborOrientation() {
     const navigation = useNavigation();
     const { waypointCtx } = useWaypointContext();
-    const { setNeighborCtx } = useNeighborContext();
+    const { setWaypointCtx } = useWaypointContext();
+    const { neighborCtx, setNeighborCtx } = useNeighborContext();
     const [orientation, setOrientation] = useState(-1);
     const magnetometerAngle = useMagnetometer();
 
@@ -35,12 +35,15 @@ export default function NeighborOrientation() {
             return;
         }
 
-        const neighbor = new Neighbor()
+        const neighbor = neighborCtx;
         neighbor.fromOrientation = orientation
-        setNeighborCtx(neighbor)
+        const waypoint = waypointCtx;
+        waypoint.addNeighbor(neighbor);
+        setWaypointCtx(waypoint);
+        setNeighborCtx(null)
 
         // @ts-expect-error: navigation type is not well defined
-        navigation.navigate(routes.installation.neighborScan)
+        navigation.navigate(routes.installation.addNeighbor)
     };
 
     useEffect(() => {
@@ -48,6 +51,10 @@ export default function NeighborOrientation() {
             console.error("Waypoint context is not defined");
             // @ts-expect-error: navigation type is not well defined
             navigation.navigate(routes.home);
+        } else if (!neighborCtx) {
+            console.error("Neighbor context is not defined");
+            // @ts-expect-error: navigation type is not well defined
+            navigation.navigate(routes.installation.addNeighbor);
         }
     }, []);
 

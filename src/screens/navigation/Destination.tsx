@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Picker } from "@react-native-picker/picker";
+import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
 import { colors } from "@/styles/colors";
@@ -9,13 +10,12 @@ import { fonts } from '@/styles/fonts';
 import { layout } from "@/styles/layout";
 import { Waypoint } from "@/models/waypoint";
 import { getNavigableWaypointsQuery } from "@/dataaccess/getNavigabledWaypoints";
+import { getShortestPathQuery } from "@/dataaccess/getShortestPath";
 import BackButton from "@/components/BackButton";
 import NextButton from "@/components/NextButton";
 import Loader from "@/components/Loader";
 import { useLazyCypher } from "@/hooks/useLazyCypher";
 import { useNavigationContext } from "@/context/navigationContext";
-import Toast from "react-native-root-toast";
-import { getShortestPathQuery } from "@/dataaccess/getShortestPath";
 
 export default function Destination() {
     const navigation = useNavigation();
@@ -70,11 +70,15 @@ export default function Destination() {
     }, []);
     useEffect(() => {
         if (waypointsResult && waypointsResult.length > 0) {
-            const waypoints = waypointsResult.map((waypoint: any) => {
-                return waypoint._fields[0].properties as Waypoint;
-            }).sort((a: Waypoint, b: Waypoint) => a.name.localeCompare(b.name));
+            const waypoints = waypointsResult
+                .map((waypoint: any) => {
+                    return waypoint._fields[0].properties as Waypoint;
+                })
+                .filter((waypoint: Waypoint) => waypoint.id !== navigationCtx.start.id)
+                .sort((a: Waypoint, b: Waypoint) => a.name.localeCompare(b.name));
             
             setWaypoints(waypoints);
+            setDestination(waypoints[0].id);
         }
     }, [waypointsResult]);
     useEffect(() => {
@@ -102,14 +106,14 @@ export default function Destination() {
             <View style={styles.inputContainer}>
                 <Text style={styles.inputLabel}>La destination</Text>
                 <Picker
-                        style={styles.input}
-                        selectedValue={destination}
-                        onValueChange={(value) => setDestination(value)}
-                    >
-                        {waypoints.map((waypoint) => {
-                            return <Picker.Item key={waypoint.id} label={waypoint.name} value={waypoint.id}/>;})
-                        }
-                    </Picker>
+                    style={styles.input}
+                    selectedValue={destination}
+                    onValueChange={(value) => setDestination(value)}
+                >
+                    {waypoints.map((waypoint) => {
+                        return <Picker.Item key={waypoint.id} label={waypoint.name} value={waypoint.id}/>;})
+                    }
+                </Picker>
             </View>
             <NextButton text="Terminer" onPress={handlePress}/>
         </View>

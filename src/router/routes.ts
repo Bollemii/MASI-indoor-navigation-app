@@ -4,9 +4,9 @@ export const routes = {
         addPoint: "AddPoint",
         informations: "Informations",
         addNeighbor: "AddNeighbor",
-        neighborOrientation: "NeighborOrientation",
         neighborScan: "NeighborScan",
         newOrientation: "NewOrientation",
+        neighborOrientation: "NeighborOrientation",
     },
     navigation: {
         startScan: "StartScan",

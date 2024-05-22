@@ -36,14 +36,10 @@ export default function NewOrientation() {
 
         const neighbor = neighborCtx;
         neighbor.toOrientation = orientation
-
-        const waypoint = waypointCtx;
-        waypoint.addNeighbor(neighbor);
-        setWaypointCtx(waypoint);
-        setNeighborCtx(null)
+        setNeighborCtx(neighbor)
 
         // @ts-expect-error: navigation type is not well defined
-        navigation.navigate(routes.installation.addNeighbor)
+        navigation.navigate(routes.installation.neighborOrientation)
     };
 
     useEffect(() => {

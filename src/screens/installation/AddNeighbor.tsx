@@ -39,7 +39,7 @@ export default function AddNeighbor() {
         }
 
         // @ts-expect-error: navigation type is not well defined
-        navigation.navigate(routes.installation.neighborOrientation);
+        navigation.navigate(routes.installation.neighborScan);
     };
     const rejectFinish = () => {
         console.log("You must connect the waypoint to at least one neighbor before finishing the installation.");
@@ -82,7 +82,7 @@ export default function AddNeighbor() {
             navigation.navigate(routes.home);
             return;
         }
-
+        setNeighborCtx(null);
         const getNumberQuery = getWaypointsNumber();
         runGetNumberQuery(getNumberQuery.query, getNumberQuery.params);
     }, [waypointCtx]);
