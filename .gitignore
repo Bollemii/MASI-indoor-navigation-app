@@ -28,9 +28,6 @@ yarn-error.*
 .DS_Store
 *.pem
 
-# local env files
-.env*.local
-
 # typescript
 *.tsbuildinfo
 
@@ -39,8 +36,11 @@ yarn-error.*
 .vscode/
 
 # Environment variables
-.env
-.*.env
+.env*
+!.env.example
 
 # Qr codes folder
 qr-codes/
+
+# build folder
+**/build/
