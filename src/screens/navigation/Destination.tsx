@@ -75,7 +75,16 @@ export default function Destination() {
                 })
                 .filter((waypoint: Waypoint) => waypoint.id !== navigationCtx.start.id)
                 .sort((a: Waypoint, b: Waypoint) => a.name.localeCompare(b.name));
-            
+
+            if (waypoints.length === 0) {
+                console.log("Navigation is not available because there are no waypoints");
+                Toast.show("La navigation n'est pas disponible. Veuillez installer des points de passage.", {
+                    position: Toast.positions.CENTER,
+                });
+                navigation.navigate(routes.HOME);
+                return;
+            }
+
             setWaypoints(waypoints);
             setDestination(waypoints[0].id);
         }
@@ -96,6 +105,7 @@ export default function Destination() {
         }
     }, [pathResult]);
 
+    if (waypoints.length === 0) return null;
     return (
         <View style={styles.container}>
             <Loader loading={waypointsLoading || pathLoading}/>
