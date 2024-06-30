@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from "react-native";
 
-import { i18n } from "@/locales/i18n";
+import { t } from "@/locales/i18n";
 import { colors } from "@/styles/colors";
 import { layout } from "@/styles/layout";
 
@@ -12,7 +12,7 @@ export default function Loader(props: LoaderProps) {
     return (
         props.loading ? (
             <View style={[styles.container, {transform: [{translateX: -100}, {translateY: -40}]}]}>
-                <Text>{i18n.t("loading")}</Text>
+                <Text>{t("loading")}</Text>
             </View>
         ) : null
     );

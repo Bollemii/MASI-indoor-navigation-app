@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
-import { i18n } from "@/locales/i18n";
+import { t } from "@/locales/i18n";
 import { Waypoint } from "@/models/waypoint";
 import { Neighbor } from "@/models/neighbor";
 import { getWaypointQuery } from "@/dataaccess/getWaypoint";
@@ -35,7 +35,7 @@ export default function NeighborScan() {
 
         if (waypointCtx.id === result) {
             console.log("You cannot connect a waypoint to itself");
-            Toast.show(i18n.t("toast.cannotConnectWaypointItself"), {
+            Toast.show(t("toast.cannotConnectWaypointItself"), {
                 position: Toast.positions.CENTER,
             });
             return;
@@ -56,14 +56,14 @@ export default function NeighborScan() {
 
         if (!result || result.length === 0) {
             console.log("Waypoint doesn't exist");
-            Toast.show(i18n.t("toast.waypointDoesNotExist"), {
+            Toast.show(t("toast.waypointDoesNotExist"), {
                 position: Toast.positions.CENTER,
             });
         } else {
             const waypoint = result[0]._fields[0].properties as Waypoint;
             if (waypointCtx.neighbors.find((n) => n.id === id)) {
                 console.log(`Waypoint is already connected to "${waypoint.name}"`);
-                Toast.show(i18n.t("toast.alreadyConnected", {name: waypoint.name}), {
+                Toast.show(t("toast.alreadyConnected", {name: waypoint.name}), {
                     position: Toast.positions.CENTER,
                 });
             } else {
@@ -86,7 +86,7 @@ export default function NeighborScan() {
         <View style={{flex:1}}>
             <Loader loading={loading}/>
             <QrScanner
-                instructions={i18n.t("instructions.scanQRNeighbor")}
+                instructions={t("instructions.scanQRNeighbor")}
                 handleScan={handleScan}
                 backRedirect={routes.ADD_NEIGHBOR}
             />

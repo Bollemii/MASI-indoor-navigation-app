@@ -5,7 +5,7 @@ import { Picker } from "@react-native-picker/picker";
 import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
-import { i18n } from '@/locales/i18n';
+import { t } from '@/locales/i18n';
 import { colors } from "@/styles/colors";
 import { fonts } from '@/styles/fonts';
 import { layout } from "@/styles/layout";
@@ -29,7 +29,7 @@ export default function Destination() {
     const handlePress = () => {
         if (!destination) {
             console.error("Destination is not set");
-            Toast.show(i18n.t("toast.destinationIsNotSet"), {
+            Toast.show(t("toast.destinationIsNotSet"), {
                 position: Toast.positions.CENTER,
             });
             return;
@@ -38,7 +38,7 @@ export default function Destination() {
         const end = waypoints.find((waypoint) => waypoint.id === destination);
         if (!end) {
             console.error("Destination is not found");
-            Toast.show(i18n.t("toast.destinationDoesNotExist"), {
+            Toast.show(t("toast.destinationDoesNotExist"), {
                 position: Toast.positions.CENTER,
             });
             return;
@@ -46,7 +46,7 @@ export default function Destination() {
 
         if (destination === navigationCtx.start.id) {
             console.error("Destination is the same as the start");
-            Toast.show(i18n.t("toast.cannotChooseWaypoint"), {
+            Toast.show(t("toast.cannotChooseWaypoint"), {
                 position: Toast.positions.CENTER,
             });
             return;
@@ -79,7 +79,7 @@ export default function Destination() {
 
             if (waypointsTmp.length === 0) {
                 console.log("Navigation is not available because there are no waypoints");
-                Toast.show(i18n.t("toast.navigationIsNotAvailable"), {
+                Toast.show(t("toast.navigationIsNotAvailable"), {
                     position: Toast.positions.CENTER,
                 });
                 navigation.navigate(routes.HOME);
@@ -95,7 +95,7 @@ export default function Destination() {
             const path = pathResult[0]._fields[0].segments
             if (!path || path.length === 0) {
                 console.error("Path doesn't exist");
-                Toast.show(i18n.t("toast.pathDoesNotExist"), {
+                Toast.show(t("toast.pathDoesNotExist"), {
                     position: Toast.positions.CENTER,
                 });
                 return;
@@ -110,10 +110,10 @@ export default function Destination() {
     return (
         <View style={styles.container}>
             <Loader loading={waypointsLoading || pathLoading}/>
-            <BackButton text={i18n.t("quit")} pageRedirect={routes.HOME}/>
-            <Text style={styles.title}>{i18n.t("destination")}</Text>
+            <BackButton text={t("quit")} pageRedirect={routes.HOME}/>
+            <Text style={styles.title}>{t("destination")}</Text>
             <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>{i18n.t("theDestination")}</Text>
+                <Text style={styles.inputLabel}>{t("theDestination")}</Text>
                 <Picker
                     style={styles.input}
                     selectedValue={destination}
@@ -124,7 +124,7 @@ export default function Destination() {
                     }
                 </Picker>
             </View>
-            <NextButton text={i18n.t("next")} onPress={handlePress}/>
+            <NextButton text={t("next")} onPress={handlePress}/>
         </View>
     );
 };

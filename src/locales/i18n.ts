@@ -10,7 +10,6 @@ const i18n = new I18n({
 const deviceLanguage = getLocales()[0].languageCode ?? 'en';
 i18n.defaultLocale = process.env.EXPO_PUBLIC_LOCALE ?? 'en';
 i18n.locale = AVAILABLE_LANGUAGES.includes(deviceLanguage) ? deviceLanguage : 'en';
-export { i18n };
 
 export function changeLanguage(language: string) {
     if (!AVAILABLE_LANGUAGES.includes(language)) {
@@ -18,4 +17,16 @@ export function changeLanguage(language: string) {
         return;
     }
     i18n.locale = language;
+};
+
+export function getCurrentLanguage() {
+    return i18n.locale;
+};
+
+export function t(key: string, options?: any) {
+    return i18n.t(key, options);
+};
+
+export function getAvailableLanguages() {
+    return AVAILABLE_LANGUAGES;
 };

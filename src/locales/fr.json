@@ -23,7 +23,7 @@
     "newIsThere": "Le nouveau est par là !",
     "newWaypoint": "Ajout d'un nouveau\npoint de passage",
     "next": "Suivant",
-    "notFound": "Page non trouvée",
+    "pageNotFound": "Page non trouvée",
     "quit": "Quitter",
     "save": "Enregistrer",
     "scan": "Scanner",

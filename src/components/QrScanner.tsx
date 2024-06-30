@@ -3,7 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { CameraView, useCameraPermissions } from "expo-camera";
 
 import { RootStackParamList, routes } from "@/router/routes";
-import { i18n } from "@/locales/i18n";
+import { t } from "@/locales/i18n";
 import { colors } from "@/styles/colors";
 import { fonts } from '@/styles/fonts';
 import { layout } from "@/styles/layout";
@@ -38,13 +38,13 @@ export default function QrScanner(props: QrScannerProps) {
             barcodeScannerSettings={{barcodeTypes:["qr"]}}
             onBarcodeScanned={process.env.EXPO_PUBLIC_AUTOMATIC_SCAN || wantScanned ? (result) => {props.handleScan(result.data); setWantScanned(false)} : undefined}
         >
-            <BackButton text={i18n.t("back")} pageRedirect={props.backRedirect || routes.HOME}/>
+            <BackButton text={t("back")} pageRedirect={props.backRedirect || routes.HOME}/>
             <View style={styles.instructionsArea}>
                 {instructions.map((instruction, index) => (
                     <Text key={index} style={styles.instructions}>{instruction}</Text>
                 ))}
             </View>
-            <NextButton text={i18n.t("scan")} onPress={handlePress}/>
+            <NextButton text={t("scan")} onPress={handlePress}/>
         </CameraView>
     );
 };

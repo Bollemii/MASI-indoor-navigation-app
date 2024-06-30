@@ -5,7 +5,7 @@ import Toast from "react-native-root-toast";
 import { Picker } from "@react-native-picker/picker";
 
 import { routes } from "@/router/routes";
-import { i18n } from "@/locales/i18n";
+import { t } from "@/locales/i18n";
 import { colors } from "@/styles/colors";
 import { fonts } from "@/styles/fonts";
 import { WaypointType } from "@/models/waypointType";
@@ -22,14 +22,14 @@ export default function Informations() {
     const handlePress = () => {
         if (!name) {
             console.log("Name is required");
-            Toast.show(i18n.t("toast.nameIsRequired"), {
+            Toast.show(t("toast.nameIsRequired"), {
                 position: Toast.positions.CENTER,
             });
             return;
         }
         if (!type) {
             console.log("Type is required");
-            Toast.show(i18n.t("toast.typeIsRequired"), {
+            Toast.show(t("toast.typeIsRequired"), {
                 position: Toast.positions.CENTER,
             });
             return;
@@ -51,31 +51,31 @@ export default function Informations() {
 
     return (
         <View style={styles.container}>
-            <BackButton text={i18n.t("cancel")} pageRedirect={routes.HOME}/>
-            <Text style={styles.title}>{i18n.t("newWaypoint")}</Text>
+            <BackButton text={t("cancel")} pageRedirect={routes.HOME}/>
+            <Text style={styles.title}>{t("newWaypoint")}</Text>
             <View style={styles.inputContainer}>
-                <Text style={styles.label}>{i18n.t("name")}</Text>
+                <Text style={styles.label}>{t("name")}</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder={i18n.t("waypointName")}
+                    placeholder={t("waypointName")}
                     onChangeText={(value) => setName(value)}
                 />
-                <Text style={styles.label}>{i18n.t("type.label")}</Text>
+                <Text style={styles.label}>{t("type.label")}</Text>
                 <View style={styles.selectContainer}>
                     <Picker
                         style={styles.input}
                         selectedValue={type}
                         onValueChange={(value) => setType(value)}
                     >
-                        <Picker.Item label={i18n.t("type.entryExit")} value={WaypointType.ENTRY_EXIT}/>
-                        <Picker.Item label={i18n.t("type.room")} value={WaypointType.ROOM}/>
-                        <Picker.Item label={i18n.t("type.intersection")} value={WaypointType.CORRIDOR_INTERSECTION}/>
-                        <Picker.Item label={i18n.t("type.stairs")} value={WaypointType.STAIRS}/>
-                        <Picker.Item label={i18n.t("type.elevator")} value={WaypointType.ELEVATOR}/>
+                        <Picker.Item label={t("type.entryExit")} value={WaypointType.ENTRY_EXIT}/>
+                        <Picker.Item label={t("type.room")} value={WaypointType.ROOM}/>
+                        <Picker.Item label={t("type.intersection")} value={WaypointType.CORRIDOR_INTERSECTION}/>
+                        <Picker.Item label={t("type.stairs")} value={WaypointType.STAIRS}/>
+                        <Picker.Item label={t("type.elevator")} value={WaypointType.ELEVATOR}/>
                     </Picker>
                 </View>
             </View>
-            <NextButton text={i18n.t("next")} onPress={handlePress}/>
+            <NextButton text={t("next")} onPress={handlePress}/>
         </View>
     );
 };

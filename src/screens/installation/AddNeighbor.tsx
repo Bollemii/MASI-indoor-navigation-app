@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
-import { i18n } from "@/locales/i18n";
+import { t } from "@/locales/i18n";
 import { colors } from "@/styles/colors";
 import { fonts } from "@/styles/fonts";
 import { layout } from "@/styles/layout";
@@ -33,7 +33,7 @@ export default function AddNeighbor() {
     const handlePress = () => {
         if (waypointsNumber === 0) {
             console.log("You are creating the first waypoint. It is not possible to connect it to a neighbor. You can finish the installation.");
-            Toast.show(i18n.t("toast.firstWaypoint"), {
+            Toast.show(t("toast.firstWaypoint"), {
                 position: Toast.positions.CENTER,
             });
             return;
@@ -43,7 +43,7 @@ export default function AddNeighbor() {
     };
     const rejectFinish = () => {
         console.log("You must connect the waypoint to at least one neighbor before finishing the installation.");
-        Toast.show(i18n.t("toast.connectAtLeastOneNeighbor"), {
+        Toast.show(t("toast.connectAtLeastOneNeighbor"), {
             position: Toast.positions.CENTER,
         });
     };
@@ -55,7 +55,7 @@ export default function AddNeighbor() {
 
         if (!waypointCtx.id || !waypointCtx.name || !waypointCtx.type) {
             console.log("Waypoint is not fully defined");
-            Toast.show(i18n.t("toast.waypointIsNotDefined"), {
+            Toast.show(t("toast.waypointIsNotDefined"), {
                 position: Toast.positions.CENTER,
             });
             return;
@@ -99,7 +99,7 @@ export default function AddNeighbor() {
         if (createResult && createResult.length > 0) {
             if (waypointsNumber === 0) {
                 console.log("Waypoint created", createResult[0]._fields[0].properties);
-                Toast.show(i18n.t("toast.waypointIsCreated"), {
+                Toast.show(t("toast.waypointIsCreated"), {
                     position: Toast.positions.CENTER,
                 });
                 finish();
@@ -121,7 +121,7 @@ export default function AddNeighbor() {
             
             if ([...neighborsCreated, neighborId].length === waypointCtx.neighbors.length) {
                 console.log("Waypoint created", createResult[0]._fields[0].properties);
-                Toast.show(i18n.t("toast.waypointIsCreated"), {
+                Toast.show(t("toast.waypointIsCreated"), {
                     position: Toast.positions.CENTER,
                 });
                 finish();
@@ -132,15 +132,15 @@ export default function AddNeighbor() {
     return (
         <View style={styles.container}>
             <Loader loading={getNumberloading || createLoading || neighborLoading}/>
-            <BackButton text={i18n.t("cancel")} pageRedirect={routes.HOME}/>
-            <Text style={styles.title}>{i18n.t("newWaypoint")}</Text>
+            <BackButton text={t("cancel")} pageRedirect={routes.HOME}/>
+            <Text style={styles.title}>{t("newWaypoint")}</Text>
             <Button
-                text={i18n.t("connectNeighbor")}
+                text={t("connectNeighbor")}
                 onPress={handlePress}
                 buttonStyle={styles.button}
                 textStyle={styles.buttonText}
             />
-            <NextButton text={i18n.t("finish")} onPress={handlePressFinish}/>
+            <NextButton text={t("finish")} onPress={handlePressFinish}/>
         </View>
     );
 };

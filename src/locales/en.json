@@ -23,7 +23,7 @@
     "newIsThere": "The new is\nover there !",
     "newWaypoint": "Add new waypoint",
     "next": "Next",
-    "notFound": "Page not found",
+    "pageNotFound": "Page not found",
     "quit": "Quit",
     "save": "Save",
     "scan": "Scan",

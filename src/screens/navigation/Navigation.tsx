@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
-import { i18n } from '@/locales/i18n';
+import { t } from '@/locales/i18n';
 import { layout } from "@/styles/layout";
 import { colors } from "@/styles/colors";
 import { WaypointTypeStages } from "@/models/waypointType";
@@ -79,7 +79,7 @@ export default function Navigation() {
 
         if (!waypointResult || waypointResult.length === 0) {
             console.log("Waypoint doesn't exist");
-            Toast.show(i18n.t("toast.waypointDoesNotExist"), {
+            Toast.show(t("toast.waypointDoesNotExist"), {
                 position: Toast.positions.CENTER,
             });
             return;
@@ -108,7 +108,7 @@ export default function Navigation() {
         const path = pathResult[0]._fields[0].segments
         if (!path || path.length === 0) {
             console.error("Path doesn't exist");
-            Toast.show(i18n.t("toast.pathDoesNotExists"), {
+            Toast.show(t("toast.pathDoesNotExists"), {
                 position: Toast.positions.CENTER,
             });
             return;
@@ -123,7 +123,7 @@ export default function Navigation() {
             <View style={styles.container}>
                 <Loader loading={waypointLoading || pathLoading}/>
                 <QrScanner
-                    instructions={i18n.t("instructions.navigation")}
+                    instructions={t("instructions.navigation")}
                     handleScan={handleScan}
                 />
                 <NavigateIcon
@@ -138,7 +138,7 @@ export default function Navigation() {
             <View style={styles.container}>
                 <Loader loading={waypointLoading || pathLoading}/>
                 <QrScanner
-                    instructions={i18n.t("instructions.navigation")}
+                    instructions={t("instructions.navigation")}
                     handleScan={handleScan}
                 />
                 <View style={styles.stageInstructions}>
@@ -155,7 +155,7 @@ export default function Navigation() {
             <View style={styles.container}>
                 <Loader loading={true}/>
                 <QrScanner
-                    instructions={i18n.t("instructions.navigation")}
+                    instructions={t("instructions.navigation")}
                     handleScan={() => {}}
                 />
             </View>
