@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
+import { i18n } from "@/locales/i18n";
 import { colors } from "@/styles/colors";
 import { fonts } from "@/styles/fonts";
 import { layout } from "@/styles/layout";
@@ -28,7 +29,7 @@ export default function NewOrientation() {
     const handlePressDone = () => {
         if (orientation === -1) {
             console.log("Orientation is not defined");
-            Toast.show("Define the orientation first", {
+            Toast.show(i18n.t("toast.defineOrientation"), {
                 position: Toast.positions.CENTER,
             });
             return;
@@ -53,10 +54,10 @@ export default function NewOrientation() {
 
     return (
         <View style={styles.container}>
-            <BackButton text="Annuler" pageRedirect={routes.ADD_NEIGHBOR}/>
-            <Text style={styles.title}>Connexion avec un point de passage voisin</Text>
+            <BackButton text={i18n.t("cancel")} pageRedirect={routes.ADD_NEIGHBOR}/>
+            <Text style={styles.title}>{i18n.t("waypointConnection")}</Text>
             <Button
-                text="Le nouveau est par là !"
+                text={i18n.t("newIsThere")}
                 onPress={handlePress}
                 buttonStyle={styles.button}
                 textStyle={styles.buttonText}
@@ -66,7 +67,7 @@ export default function NewOrientation() {
                 orientation={orientation === -1 ? undefined : orientation}
                 magnetometerAngle={magnetometerAngle}
             />
-            <NextButton text="Enregistrer" onPress={handlePressDone}/>
+            <NextButton text={i18n.t("save")} onPress={handlePressDone}/>
         </View>
     );
 };

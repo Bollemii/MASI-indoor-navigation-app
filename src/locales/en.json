@@ -1,24 +1,61 @@
 {
     "back": "Back",
+    "cancel": "Cancel",
+    "connectNeighbor": "Connect to a neighboring waypoint",
     "destination": "Destination",
     "finish": "Finish",
     "installation": "Add a new waypoint",
     "instructions": {
         "navigation": "Follow the instructions.\nScan the QR code of the next waypoint.",
+        "scanNewQR": "Scan the QR code of the new waypoint",
+        "scanQRNeighbor": "Scan the QR code of the neighboring waypoint",
         "scanQRYouAre": "Scan the QR code where you are"
     },
+    "loading": "Loading...",
+    "name": "Name",
     "navigation": "Navigation",
-    "navigationApp": "Navigation application",
+    "navigationApp": "Navigation\napplication",
+    "neighbor": {
+        "down": "I went down a floor",
+        "up": "I went up a floor"
+    },
+    "neighborIsThere": "Neighbor is over there !",
+    "newIsThere": "The new is\nover there !",
+    "newWaypoint": "Add new waypoint",
     "next": "Next",
     "notFound": "Page not found",
+    "quit": "Quit",
+    "save": "Save",
+    "scan": "Scan",
     "theDestination": "The destination",
     "toast": {
-        "cannotChooseWaypoint": "Cannot choose the same waypoint as destination",
+        "alreadyConnected": "This waypoint is already connected to {{name, string}}",
+        "cannotChooseWaypoint": "You cannot choose the same waypoint as destination",
+        "cannotConnectWaypointItself": "You cannot connect a waypoint to itself",
+        "connectAtLeastOneNeighbor": "You must connect the waypoint to at least one neighbor before finishing the installation.",
+        "defineOrientation": "Define the orientation first",
         "destinationDoesNotExist": "Destination does not exist",
         "destinationIsNotSet": "Destination is not set",
+        "firstWaypoint": "You are creating the first waypoint. It is not possible to connect it to a neighbor. You can finish the installation.",
+        "nameIsRequired": "The name is required",
         "navigationIsNotAvailable": "Navigation is not available. Please install new waypoints.",
         "pathDoesNotExist": "Path does not exist between the start and end points.",
-        "waypointNotExists": "Waypoint does not exist"
+        "typeIsRequired": "The type is required",
+        "waypointAlreadyExists": "This waypoint already exists and is named {{name, string}}",
+        "waypointDoesNotExist": "This waypoint does not exist",
+        "waypointIsCreated": "The waypoint is created successfully",
+        "waypointIsNotDefined": "The waypoint is not fully defined"
     },
+    "toJoinNeighbor": "To join the neighbor :",
+    "type": {
+        "elevator": "Elevator",
+        "entryExit": "Entry - Exit",
+        "intersection": "Intersection",
+        "label": "Type",
+        "room": "Room",
+        "stairs": "Stairs"
+    },
+    "waypointConnection": "Connection with a neighboring waypoint",
+    "waypointName": "Waypoint name",
     "youAreArrived": "You are arrived at the destination"
 }

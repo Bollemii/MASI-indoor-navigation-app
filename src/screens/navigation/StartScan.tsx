@@ -36,7 +36,7 @@ export default function StartScan() {
 
         if (!result || result.length === 0) {
             console.log("Waypoint doesn't exist");
-            Toast.show(i18n.t("toast.waypointNotExists"), {
+            Toast.show(i18n.t("toast.waypointDoesNotExist"), {
                 position: Toast.positions.CENTER,
             });
         } else {

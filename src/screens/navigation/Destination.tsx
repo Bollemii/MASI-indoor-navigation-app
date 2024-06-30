@@ -110,7 +110,7 @@ export default function Destination() {
     return (
         <View style={styles.container}>
             <Loader loading={waypointsLoading || pathLoading}/>
-            <BackButton text="Quitter" pageRedirect={routes.HOME}/>
+            <BackButton text={i18n.t("quit")} pageRedirect={routes.HOME}/>
             <Text style={styles.title}>{i18n.t("destination")}</Text>
             <View style={styles.inputContainer}>
                 <Text style={styles.inputLabel}>{i18n.t("theDestination")}</Text>

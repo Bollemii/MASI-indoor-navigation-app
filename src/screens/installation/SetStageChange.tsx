@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { routes } from "@/router/routes";
+import { i18n } from '@/locales/i18n';
 import { colors } from "@/styles/colors";
 import { layout } from "@/styles/layout";
 import { fonts } from "@/styles/fonts";
@@ -41,18 +42,18 @@ export default function SetStageChange() {
 
     return (
         <View style={styles.container}>
-            <BackButton text="Annuler" pageRedirect={routes.ADD_NEIGHBOR}/>
-            <Text style={styles.title}>Connexion avec un point de passage voisin</Text>
-            <Text style={styles.text}>Pour atteindre le voisin :</Text>
+            <BackButton text={i18n.t("cancel")} pageRedirect={routes.ADD_NEIGHBOR}/>
+            <Text style={styles.title}>{i18n.t("waypointConnection")}</Text>
+            <Text style={styles.text}>{i18n.t("toJoinNeighbor")}</Text>
             <View style={styles.buttonContainer}>
                 <Button
-                    text="J'ai monté un étage"
+                    text={i18n.t('neighbor.up')}
                     onPress={() => {handlePress(StageChange.UP)}}
                     buttonStyle={styles.button}
                     textStyle={styles.buttonText}
                 />
                 <Button
-                    text="J'ai descendu un étage"
+                    text={i18n.t('neighbor.down')}
                     onPress={() => {handlePress(StageChange.DOWN)}}
                     buttonStyle={styles.button}
                     textStyle={styles.buttonText}
