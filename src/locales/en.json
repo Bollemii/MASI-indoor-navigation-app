@@ -29,7 +29,7 @@
     "scan": "Scan",
     "theDestination": "The destination",
     "toast": {
-        "alreadyConnected": "This waypoint is already connected to {{name, string}}",
+        "alreadyConnected": "This waypoint is already connected to {{name}}",
         "cannotChooseWaypoint": "You cannot choose the same waypoint as destination",
         "cannotConnectWaypointItself": "You cannot connect a waypoint to itself",
         "connectAtLeastOneNeighbor": "You must connect the waypoint to at least one neighbor before finishing the installation.",
@@ -41,7 +41,7 @@
         "navigationIsNotAvailable": "Navigation is not available. Please install new waypoints.",
         "pathDoesNotExist": "Path does not exist between the start and end points.",
         "typeIsRequired": "The type is required",
-        "waypointAlreadyExists": "This waypoint already exists and is named {{name, string}}",
+        "waypointAlreadyExists": "This waypoint already exists and is named {{name}}",
         "waypointDoesNotExist": "This waypoint does not exist",
         "waypointIsCreated": "The waypoint is created successfully",
         "waypointIsNotDefined": "The waypoint is not fully defined"

@@ -29,7 +29,7 @@
     "scan": "Scanner",
     "theDestination": "La destination",
     "toast": {
-        "alreadyConnected": "Ce point de passage est déjà connecté à {{name, string}}",
+        "alreadyConnected": "Ce point de passage est déjà connecté à {{name}}",
         "cannotChooseWaypoint": "Vous ne pouvez pas choisir le même point de passage comme destination destination",
         "cannotConnectWaypointItself": "Vous ne pouvez pas connecter un point de passage à lui-même",
         "connectAtLeastOneNeighbor": "Vous devez connecter le point de passage à au moins un voisin avant de terminer l'installation.",
@@ -41,7 +41,7 @@
         "navigationIsNotAvailable": "La navigation n'est pas disponible. Veuillez installer de nouveaux points de passage.",
         "pathDoesNotExist": "Il n'existe pas de chemin entre les points de départ et d'arrivée.",
         "typeIsRequired": "Le type est requis",
-        "waypointAlreadyExists": "Ce point de passage existe déjà et est nommé {{name, string}}",
+        "waypointAlreadyExists": "Ce point de passage existe déjà et est nommé {{name}}",
         "waypointDoesNotExist": "Ce point de passage n'existe pas",
         "waypointIsCreated": "Le point de passage est créé avec succès",
         "waypointIsNotDefined": "Le point de passage n'est pas entièrement défini"
