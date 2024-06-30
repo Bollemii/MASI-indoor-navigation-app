@@ -1,0 +1,24 @@
+{
+    "back": "Retour",
+    "destination": "Destination",
+    "finish": "Terminer",
+    "installation": "Ajouter un nouveau\npoint de passage",
+    "instructions": {
+        "navigation": "Suivez les instructions.\nScannez le code QR du prochain point de passage.",
+        "scanQRYouAre": "Scannez le code QR où vous vous trouvez"
+    },
+    "navigation": "Navigation",
+    "navigationApp": "Application de navigation",
+    "next": "Suivant",
+    "notFound": "Page non trouvée",
+    "theDestination": "La destination",
+    "toast": {
+        "cannotChooseWaypoint": "Vous ne pouvez pas choisir le même point de passage comme destination destination",
+        "destinationDoesNotExist": "La destination n'existe pas",
+        "destinationIsNotSet": "La destination n'est pas définie",
+        "navigationIsNotAvailable": "La navigation n'est pas disponible. Veuillez installer de nouveaux points de passage.",
+        "pathDoesNotExist": "Le chemin n'existe pas entre les points de départ et d'arrivée.",
+        "waypointNotExists": "Le point de passage n'existe pas"
+    },
+    "youAreArrived": "Vous êtes arrivé à destination"
+}

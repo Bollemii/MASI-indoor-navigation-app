@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { routes } from '@/router/routes';
+import { i18n } from '@/locales/i18n';
 import { colors } from '@/styles/colors';
 import { fonts } from '@/styles/fonts';
 import { layout } from '@/styles/layout';
@@ -25,16 +26,16 @@ export default function HomeScreen() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Application{"\n"}de navigation</Text>
+            <Text style={styles.title}>{i18n.t("navigationApp")}</Text>
             <View style={styles.buttonContainer}>
                 <Button
-                    text='Ajouter un nouveau\npoint de passage'
+                    text={i18n.t("installation")}
                     onPress={() => (navigation.navigate(routes.ADD_POINT))}
                     buttonStyle={styles.button}
                     textStyle={styles.buttonText}
                 />
                 <Button
-                    text='Navigation'
+                    text={i18n.t("navigation")}
                     onPress={() => {navigation.navigate(routes.START_SCAN)}}
                     buttonStyle={styles.button}
                     textStyle={styles.buttonText}
