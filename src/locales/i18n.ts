@@ -8,7 +8,6 @@ const i18n = new I18n({
     fr: require('./fr.json'),
 });
 const deviceLanguage = getLocales()[0].languageCode ?? 'en';
-console.log('deviceLanguage', deviceLanguage);
 i18n.defaultLocale = process.env.EXPO_PUBLIC_LOCALE ?? 'en';
 i18n.locale = AVAILABLE_LANGUAGES.includes(deviceLanguage) ? deviceLanguage : 'en';
 export { i18n };

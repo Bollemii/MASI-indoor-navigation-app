@@ -21,7 +21,7 @@
     },
     "neighborIsThere": "Le voisin est par là !",
     "newIsThere": "Le nouveau est par là !",
-    "newWaypoint": "Ajout d'un nouveau point de passage",
+    "newWaypoint": "Ajout d'un nouveau\npoint de passage",
     "next": "Suivant",
     "notFound": "Page non trouvée",
     "quit": "Quitter",
@@ -42,9 +42,9 @@
         "pathDoesNotExist": "Il n'existe pas de chemin entre les points de départ et d'arrivée.",
         "typeIsRequired": "Le type est requis",
         "waypointAlreadyExists": "Ce point de passage existe déjà et est nommé {{name, string}}",
+        "waypointDoesNotExist": "Ce point de passage n'existe pas",
         "waypointIsCreated": "Le point de passage est créé avec succès",
-        "waypointIsNotDefined": "Le point de passage n'est pas entièrement défini",
-        "waypointNotExists": "Ce point de passage n'existe pas"
+        "waypointIsNotDefined": "Le point de passage n'est pas entièrement défini"
     },
     "toJoinNeighbor": "Pour atteindre le voisin :",
     "type": {
