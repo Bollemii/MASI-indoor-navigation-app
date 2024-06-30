@@ -11,6 +11,11 @@
         "scanQRNeighbor": "Scan the QR code of the neighboring waypoint",
         "scanQRYouAre": "Scan the QR code where you are"
     },
+    "language": {
+        "en": "English",
+        "fr": "French",
+        "nl": "Dutch"
+    },
     "loading": "Loading...",
     "name": "Name",
     "navigation": "Navigation",

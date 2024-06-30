@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { routes } from '@/router/routes';
-import { t } from '@/locales/i18n';
+import { changeLanguage, getAvailableLanguages, getCurrentLanguage, t } from '@/locales/i18n';
 import { colors } from '@/styles/colors';
 import { fonts } from '@/styles/fonts';
 import { layout } from '@/styles/layout';
@@ -11,9 +11,11 @@ import Button from '@/components/Button';
 import { useWaypointContext } from '@/context/waypointContext';
 import { useNeighborContext } from '@/context/neighborContext';
 import { useNavigationContext } from '@/context/navigationContext';
+import { Picker } from '@react-native-picker/picker';
 
 export default function HomeScreen() {
     const navigation = useNavigation();
+    const [language, setLanguage] = useState("en");
     const { setWaypointCtx } = useWaypointContext();
     const { setNeighborCtx } = useNeighborContext();
     const { setNavigationCtx } = useNavigationContext();
@@ -22,11 +24,25 @@ export default function HomeScreen() {
         setWaypointCtx(null);
         setNeighborCtx(null);
         setNavigationCtx(null);
+
+        setLanguage(getCurrentLanguage())
     }, []);
+    useEffect(() => {
+        changeLanguage(language);
+    }, [language]);
 
     return (
         <View style={styles.container}>
-            
+            <Picker
+                style={styles.languageInput}
+                mode='dropdown'
+                selectedValue={language}
+                onValueChange={(value) => setLanguage(value)}
+            >
+                {getAvailableLanguages().map((language) => {
+                    return <Picker.Item key={language} label={t(`language.${language}`)} value={language}/>;})
+                }
+            </Picker>
             <Text style={styles.title}>{t("navigationApp")}</Text>
             <View style={styles.buttonContainer}>
                 <Button
@@ -52,6 +68,17 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         alignItems: 'center',
         backgroundColor: colors.brown,
+    },
+    languageInput: {
+        position: 'absolute',
+        top: layout.emptyBorder,
+        right: layout.emptyBorder,
+        height: 50,
+        width: 130,
+        borderColor: colors.black,
+        borderWidth: 1,
+        borderRadius: layout.borderRadius.small,
+        backgroundColor: colors.gray,
     },
     title: {
         fontSize: fonts.size.title,

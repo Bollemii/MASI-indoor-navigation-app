@@ -11,6 +11,11 @@
         "scanQRNeighbor": "Scannez le code QR du point de passage voisin",
         "scanQRYouAre": "Scannez le code QR où vous vous trouvez"
     },
+    "language": {
+        "en": "Anglais",
+        "fr": "Français",
+        "nl": "Néerlandais"
+    },
     "loading": "Chargement...",
     "name": "Nom",
     "navigation": "Navigation",
