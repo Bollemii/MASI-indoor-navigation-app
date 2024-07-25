@@ -12,10 +12,12 @@ import { useWaypointContext } from '@/context/waypointContext';
 import { useNeighborContext } from '@/context/neighborContext';
 import { useNavigationContext } from '@/context/navigationContext';
 import { Picker } from '@react-native-picker/picker';
+import useSavedLocale from '@/hooks/useSavedLocale';
 
 export default function HomeScreen() {
     const navigation = useNavigation();
     const [language, setLanguage] = useState(getCurrentLanguage());
+    const locale = useSavedLocale();
     const { setWaypointCtx } = useWaypointContext();
     const { setNeighborCtx } = useNeighborContext();
     const { setNavigationCtx } = useNavigationContext();
@@ -27,10 +29,19 @@ export default function HomeScreen() {
 
         setLanguage(getCurrentLanguage())
     }, []);
+    useEffect(() => {
+        if (locale) {
+            handleChooseLanguage(locale);
+        }
+    }, [locale]);
 
     const handleChooseLanguage = (value: string) => {
-        changeLanguage(value);
-        setLanguage(value);
+        try {
+            changeLanguage(value);
+            setLanguage(value);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (
@@ -76,7 +87,7 @@ const styles = StyleSheet.create({
         top: layout.emptyBorder,
         right: layout.emptyBorder,
         height: 50,
-        width: 130,
+        width: 150,
         borderColor: colors.black,
         borderWidth: 1,
         borderRadius: layout.borderRadius.small,

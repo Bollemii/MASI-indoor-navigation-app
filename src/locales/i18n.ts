@@ -1,7 +1,9 @@
 import { I18n } from 'i18n-js';
 import { getLocales } from 'expo-localization';
 
-// Locale priority: 
+import { getPreference, setPreference, PREFERENCES_KEYS } from '@/dataaccess/preferencesDB';
+
+// Locale priority:
 // 1. Device locale
 // 2. Env locale
 // 3. EN (default)
@@ -16,22 +18,20 @@ function setupI18n() {
         fr: require('./fr.json'),
         nl: require('./nl.json'),
     };
+    i18n.defaultLocale = 'en';
     let deviceLanguage = getLocales()[0].languageCode;
     if (!AVAILABLE_LANGUAGES.includes(deviceLanguage)) {
         deviceLanguage = null;
     }
-    i18n.defaultLocale = 'en';
     i18n.locale = deviceLanguage ?? process.env.EXPO_PUBLIC_LOCALE ?? 'en';
-    console.log(`Device language: ${deviceLanguage}`);
-    console.log(`Current language: ${i18n.locale}`);
 }
 
 export function changeLanguage(language: string) {
     if (!AVAILABLE_LANGUAGES.includes(language)) {
-        console.error(`Language ${language} is not available`);
-        return;
+        throw new Error(`Language ${language} is not available`);
     }
     i18n.locale = language;
+    setPreference(PREFERENCES_KEYS.LANGUAGE, language);
 };
 
 export function getCurrentLanguage() {
