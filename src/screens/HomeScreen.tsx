@@ -27,9 +27,11 @@ export default function HomeScreen() {
 
         setLanguage(getCurrentLanguage())
     }, []);
-    useEffect(() => {
-        changeLanguage(language);
-    }, [language]);
+
+    const handleChooseLanguage = (value: string) => {
+        changeLanguage(value);
+        setLanguage(value);
+    };
 
     return (
         <View style={styles.container}>
@@ -37,7 +39,7 @@ export default function HomeScreen() {
                 style={styles.languageInput}
                 mode='dropdown'
                 selectedValue={language}
-                onValueChange={(value) => setLanguage(value)}
+                onValueChange={(value) => handleChooseLanguage(value)}
             >
                 {getAvailableLanguages().map((language) => {
                     return <Picker.Item key={language} label={t(`language.${language}`)} value={language}/>;})
@@ -47,7 +49,7 @@ export default function HomeScreen() {
             <View style={styles.buttonContainer}>
                 <Button
                     text={t("installation")}
-                    onPress={() => (navigation.navigate(routes.ADD_POINT))}
+                    onPress={() => {navigation.navigate(routes.ADD_POINT)}}
                     buttonStyle={styles.button}
                     textStyle={styles.buttonText}
                 />

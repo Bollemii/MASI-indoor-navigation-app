@@ -31,8 +31,6 @@ export function changeLanguage(language: string) {
         console.error(`Language ${language} is not available`);
         return;
     }
-    console.log(`Changing language from ${i18n.locale} to ${language}`);
-    
     i18n.locale = language;
 };
 
