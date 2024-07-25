@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
+import { t } from "@/locales/i18n";
 import { Waypoint } from "@/models/waypoint";
 import { getWaypointQuery } from "@/dataaccess/getWaypoint";
 import QrScanner from "@/components/QrScanner";
@@ -37,7 +38,7 @@ export default function AddPoint() {
             const waypoint = result[0]._fields[0].properties as Waypoint;
             if (waypoint) {
                 console.log("Waypoint already exists and is named :", waypoint.name);
-                Toast.show(`Le point de passage existe déjà et est nommé "${waypoint.name}"`, {
+                Toast.show(t("toast.waypointAlreadyExists", {name: waypoint.name}), {
                     position: Toast.positions.CENTER,
                 });
             }
@@ -53,7 +54,7 @@ export default function AddPoint() {
         <View style={{flex:1}}>
             <Loader loading={loading}/>
             <QrScanner
-                instructions="Scannez le QR code du nouveau point de passage"
+                instructions={t("instructions.scanNewQR")}
                 handleScan={handleScan}
             />
         </View>

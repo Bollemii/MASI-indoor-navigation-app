@@ -1,0 +1,66 @@
+{
+    "back": "Terug",
+    "cancel": "Annuleren",
+    "connectNeighbor": "Verbinden met een nabijgelegen waypoint",
+    "destination": "Bestemming",
+    "finish": "Voltooien",
+    "installation": "Voeg een nieuw\nwaypoint toe",
+    "instructions": {
+        "navigation": "Volg de instructies.\nScan de QR-code van het volgende waypoint.",
+        "scanNewQR": "Scan de QR-code van het nieuwe waypoint",
+        "scanQRNeighbor": "Scan de QR-code van het naburige waypoint",
+        "scanQRYouAre": "Scan de QR-code waar je bent"
+    },
+    "language": {
+        "en": "Engels",
+        "fr": "Frans",
+        "nl": "Nederlands"
+    },
+    "loading": "Laden...",
+    "name": "Naam",
+    "navigation": "Navigatie",
+    "navigationApp": "Navigatie\napplicatie",
+    "neighbor": {
+        "down": "Ik ben een verdieping omlaag gegaan",
+        "up": "Ik ben een verdieping omhoog gegaan"
+    },
+    "neighborIsThere": "De buurman is daar !",
+    "newIsThere": "Het nieuwe is daar !",
+    "newWaypoint": "Nieuw waypoint toevoegen",
+    "next": "Volgende",
+    "pageNotFound": "Pagina niet gevonden",
+    "quit": "Stoppen",
+    "save": "Opslaan",
+    "scan": "Scannen",
+    "theDestination": "De bestemming",
+    "toast": {
+        "alreadyConnected": "Dit waypoint is al verbonden met {{name}}",
+        "cannotChooseWaypoint": "Je kunt niet hetzelfde waypoint als bestemming kiezen",
+        "cannotConnectWaypointItself": "Je kunt een waypoint niet met zichzelf verbinden",
+        "connectAtLeastOneNeighbor": "Je moet het waypoint met ten minste één buur verbinden voordat je de installatie voltooit.",
+        "defineOrientation": "Definieer eerst de oriëntatie",
+        "destinationDoesNotExist": "Bestemming bestaat niet",
+        "destinationIsNotSet": "Bestemming is niet ingesteld",
+        "firstWaypoint": "Je maakt het eerste waypoint aan. Het is niet mogelijk om het met een buur te verbinden. Je kunt de installatie voltooien.",
+        "nameIsRequired": "De naam is verplicht",
+        "navigationIsNotAvailable": "Navigatie is niet beschikbaar. Installeer nieuwe waypoints.",
+        "pathDoesNotExist": "Er bestaat geen pad tussen de start- en eindpunten.",
+        "typeIsRequired": "Het type is verplicht",
+        "waypointAlreadyExists": "Dit waypoint bestaat al en heet {{name}}",
+        "waypointDoesNotExist": "Dit waypoint bestaat niet",
+        "waypointIsCreated": "Het waypoint is succesvol aangemaakt",
+        "waypointIsNotDefined": "Het waypoint is niet volledig gedefinieerd"
+    },
+    "toJoinNeighbor": "Om de buurman te bereiken :",
+    "type": {
+        "elevator": "Lift",
+        "entryExit": "Ingang - Uitgang",
+        "intersection": "Kruispunt",
+        "label": "Type",
+        "room": "Kamer",
+        "stairs": "Trappen"
+    },
+    "waypointConnection": "Verbinding met een nabijgelegen waypoint",
+    "waypointName": "Waypoint naam",
+    "youAreArrived": "Je bent aangekomen op de bestemming"
+}

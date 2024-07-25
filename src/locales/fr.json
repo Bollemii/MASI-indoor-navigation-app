@@ -1,0 +1,66 @@
+{
+    "back": "Retour",
+    "cancel": "Annuler",
+    "connectNeighbor": "Connecter à un point de passage voisin",
+    "destination": "Destination",
+    "finish": "Terminer",
+    "installation": "Ajouter un nouveau\npoint de passage",
+    "instructions": {
+        "navigation": "Suivez les instructions.\nScannez le code QR du prochain point de passage.",
+        "scanNewQR": "Scannez le code QR du nouveau point de passage",
+        "scanQRNeighbor": "Scannez le code QR du point de passage voisin",
+        "scanQRYouAre": "Scannez le code QR où vous vous trouvez"
+    },
+    "language": {
+        "en": "Anglais",
+        "fr": "Français",
+        "nl": "Néerlandais"
+    },
+    "loading": "Chargement...",
+    "name": "Nom",
+    "navigation": "Navigation",
+    "navigationApp": "Application\nde navigation",
+    "neighbor": {
+        "down": "J'ai descendu d'un étage",
+        "up": "J'ai monté d'un étage"
+    },
+    "neighborIsThere": "Le voisin est par là !",
+    "newIsThere": "Le nouveau est par là !",
+    "newWaypoint": "Ajout d'un nouveau\npoint de passage",
+    "next": "Suivant",
+    "pageNotFound": "Page non trouvée",
+    "quit": "Quitter",
+    "save": "Enregistrer",
+    "scan": "Scanner",
+    "theDestination": "La destination",
+    "toast": {
+        "alreadyConnected": "Ce point de passage est déjà connecté à {{name}}",
+        "cannotChooseWaypoint": "Vous ne pouvez pas choisir le même point de passage comme destination destination",
+        "cannotConnectWaypointItself": "Vous ne pouvez pas connecter un point de passage à lui-même",
+        "connectAtLeastOneNeighbor": "Vous devez connecter le point de passage à au moins un voisin avant de terminer l'installation.",
+        "defineOrientation": "Définissez l'orientation en premier",
+        "destinationDoesNotExist": "La destination n'existe pas",
+        "destinationIsNotSet": "La destination n'est pas définie",
+        "firstWaypoint": "Vous créez le premier point de passage. Il n'est pas possible de le connecter à un voisin. Vous pouvez terminer l'installation.",
+        "nameIsRequired": "Le nom est requis",
+        "navigationIsNotAvailable": "La navigation n'est pas disponible. Veuillez installer de nouveaux points de passage.",
+        "pathDoesNotExist": "Il n'existe pas de chemin entre les points de départ et d'arrivée.",
+        "typeIsRequired": "Le type est requis",
+        "waypointAlreadyExists": "Ce point de passage existe déjà et est nommé {{name}}",
+        "waypointDoesNotExist": "Ce point de passage n'existe pas",
+        "waypointIsCreated": "Le point de passage est créé avec succès",
+        "waypointIsNotDefined": "Le point de passage n'est pas entièrement défini"
+    },
+    "toJoinNeighbor": "Pour atteindre le voisin :",
+    "type": {
+        "elevator": "Ascenseur",
+        "entryExit": "Entrée - Sortie",
+        "intersection": "Intersection",
+        "label": "Type",
+        "room": "Salle",
+        "stairs": "Escaliers"
+    },
+    "waypointConnection": "Connexion avec un point de passage voisin",
+    "waypointName": "Nom du point de passage",
+    "youAreArrived": "Vous êtes arrivé à destination"
+}

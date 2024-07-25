@@ -1,8 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import { routes } from '@/router/routes';
+import { changeLanguage, getAvailableLanguages, getCurrentLanguage, t } from '@/locales/i18n';
 import { colors } from '@/styles/colors';
 import { fonts } from '@/styles/fonts';
 import { layout } from '@/styles/layout';
@@ -10,9 +11,13 @@ import Button from '@/components/Button';
 import { useWaypointContext } from '@/context/waypointContext';
 import { useNeighborContext } from '@/context/neighborContext';
 import { useNavigationContext } from '@/context/navigationContext';
+import { Picker } from '@react-native-picker/picker';
+import useSavedLocale from '@/hooks/useSavedLocale';
 
 export default function HomeScreen() {
     const navigation = useNavigation();
+    const [language, setLanguage] = useState(getCurrentLanguage());
+    const locale = useSavedLocale();
     const { setWaypointCtx } = useWaypointContext();
     const { setNeighborCtx } = useNeighborContext();
     const { setNavigationCtx } = useNavigationContext();
@@ -21,20 +26,46 @@ export default function HomeScreen() {
         setWaypointCtx(null);
         setNeighborCtx(null);
         setNavigationCtx(null);
+
+        setLanguage(getCurrentLanguage())
     }, []);
+    useEffect(() => {
+        if (locale) {
+            handleChooseLanguage(locale);
+        }
+    }, [locale]);
+
+    const handleChooseLanguage = (value: string) => {
+        try {
+            changeLanguage(value);
+            setLanguage(value);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Application{"\n"}de navigation</Text>
+            <Picker
+                style={styles.languageInput}
+                mode={Picker.MODE_DROPDOWN}
+                selectedValue={language}
+                onValueChange={(value) => handleChooseLanguage(value)}
+            >
+                {getAvailableLanguages().map((language) => {
+                    return <Picker.Item key={language} label={t(`language.${language}`)} value={language}/>;})
+                }
+            </Picker>
+            <Text style={styles.title}>{t("navigationApp")}</Text>
             <View style={styles.buttonContainer}>
                 <Button
-                    text='Ajouter un nouveau\npoint de passage'
-                    onPress={() => (navigation.navigate(routes.ADD_POINT))}
+                    text={t("installation")}
+                    onPress={() => {navigation.navigate(routes.ADD_POINT)}}
                     buttonStyle={styles.button}
                     textStyle={styles.buttonText}
                 />
                 <Button
-                    text='Navigation'
+                    text={t("navigation")}
                     onPress={() => {navigation.navigate(routes.START_SCAN)}}
                     buttonStyle={styles.button}
                     textStyle={styles.buttonText}
@@ -50,6 +81,17 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         alignItems: 'center',
         backgroundColor: colors.brown,
+    },
+    languageInput: {
+        position: 'absolute',
+        top: layout.emptyBorder,
+        right: layout.emptyBorder,
+        height: 50,
+        width: 150,
+        borderColor: colors.black,
+        borderWidth: 1,
+        borderRadius: layout.borderRadius.small,
+        backgroundColor: colors.gray,
     },
     title: {
         fontSize: fonts.size.title,

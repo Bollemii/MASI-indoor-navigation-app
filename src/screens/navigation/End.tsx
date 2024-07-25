@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { routes } from "@/router/routes";
+import { t } from '@/locales/i18n';
 import { colors } from "@/styles/colors";
 import { fonts } from '@/styles/fonts';
 import NextButton from "@/components/NextButton";
@@ -26,8 +27,8 @@ export default function End() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Vous êtes arrivé{"\n"}à destination</Text>
-            <NextButton text="Terminer" onPress={handlePress}/>
+            <Text style={styles.title}>{t("youAreArrived")}</Text>
+            <NextButton text={t("finish")} onPress={handlePress}/>
         </View>
     );
 };

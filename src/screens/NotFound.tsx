@@ -1,16 +1,17 @@
 import { View, Text, StyleSheet } from 'react-native';
 
+import { routes } from '@/router/routes';
+import { t } from '@/locales/i18n';
 import { fonts } from '@/styles/fonts';
 import BackButton from '@/components/BackButton';
-import { routes } from '@/router/routes';
 
 export default function HomeScreen() {
     return (
         <View style={styles.container}>
-            <BackButton text="Retour" pageRedirect={routes.HOME}/>
-            <Text style={styles.title}>Not found</Text>
+            <BackButton text={t("back")} pageRedirect={routes.HOME}/>
+            <Text style={styles.title}>{t("pageNotFound")}</Text>
         </View>
-    );
+    ); 
 };
 
 const styles = StyleSheet.create({

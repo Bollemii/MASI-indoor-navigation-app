@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
+import { t } from '@/locales/i18n';
 import { Waypoint } from "@/models/waypoint";
 import { getWaypointQuery } from "@/dataaccess/getWaypoint";
 import QrScanner from "@/components/QrScanner";
@@ -35,7 +36,7 @@ export default function StartScan() {
 
         if (!result || result.length === 0) {
             console.log("Waypoint doesn't exist");
-            Toast.show("Le point de passage n'existe pas", {
+            Toast.show(t("toast.waypointDoesNotExist"), {
                 position: Toast.positions.CENTER,
             });
         } else {
@@ -52,7 +53,7 @@ export default function StartScan() {
         <View style={{flex:1}}>
             <Loader loading={loading}/>
             <QrScanner
-                instructions="Scannez le QR code où vous vous trouvez."
+                instructions={t("instructions.scanQRYouAre")}
                 handleScan={loading ? () => {} : handleScan}
             />
         </View>

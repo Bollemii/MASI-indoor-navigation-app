@@ -5,6 +5,7 @@ import { Picker } from "@react-native-picker/picker";
 import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
+import { t } from '@/locales/i18n';
 import { colors } from "@/styles/colors";
 import { fonts } from '@/styles/fonts';
 import { layout } from "@/styles/layout";
@@ -28,7 +29,7 @@ export default function Destination() {
     const handlePress = () => {
         if (!destination) {
             console.error("Destination is not set");
-            Toast.show("La destination n'est pas définie", {
+            Toast.show(t("toast.destinationIsNotSet"), {
                 position: Toast.positions.CENTER,
             });
             return;
@@ -37,7 +38,7 @@ export default function Destination() {
         const end = waypoints.find((waypoint) => waypoint.id === destination);
         if (!end) {
             console.error("Destination is not found");
-            Toast.show("La destination entrée n'existe pas", {
+            Toast.show(t("toast.destinationDoesNotExist"), {
                 position: Toast.positions.CENTER,
             });
             return;
@@ -45,7 +46,7 @@ export default function Destination() {
 
         if (destination === navigationCtx.start.id) {
             console.error("Destination is the same as the start");
-            Toast.show("Vous ne pouvez pas choisir le même point de passage comme destination", {
+            Toast.show(t("toast.cannotChooseWaypoint"), {
                 position: Toast.positions.CENTER,
             });
             return;
@@ -69,24 +70,24 @@ export default function Destination() {
     }, []);
     useEffect(() => {
         if (waypointsResult && waypointsResult.length > 0) {
-            const waypoints = waypointsResult
+            const waypointsTmp = waypointsResult
                 .map((waypoint: any) => {
                     return waypoint._fields[0].properties as Waypoint;
                 })
                 .filter((waypoint: Waypoint) => waypoint.id !== navigationCtx.start.id)
                 .sort((a: Waypoint, b: Waypoint) => a.name.localeCompare(b.name));
 
-            if (waypoints.length === 0) {
+            if (waypointsTmp.length === 0) {
                 console.log("Navigation is not available because there are no waypoints");
-                Toast.show("La navigation n'est pas disponible. Veuillez installer des points de passage.", {
+                Toast.show(t("toast.navigationIsNotAvailable"), {
                     position: Toast.positions.CENTER,
                 });
                 navigation.navigate(routes.HOME);
                 return;
             }
 
-            setWaypoints(waypoints);
-            setDestination(waypoints[0].id);
+            setWaypoints(waypointsTmp);
+            setDestination(waypointsTmp[0].id);
         }
     }, [waypointsResult]);
     useEffect(() => {
@@ -94,7 +95,7 @@ export default function Destination() {
             const path = pathResult[0]._fields[0].segments
             if (!path || path.length === 0) {
                 console.error("Path doesn't exist");
-                Toast.show("Il n'y a pas de chemin entre le point de départ et la destination", {
+                Toast.show(t("toast.pathDoesNotExist"), {
                     position: Toast.positions.CENTER,
                 });
                 return;
@@ -109,10 +110,10 @@ export default function Destination() {
     return (
         <View style={styles.container}>
             <Loader loading={waypointsLoading || pathLoading}/>
-            <BackButton text="Quitter" pageRedirect={routes.HOME}/>
-            <Text style={styles.title}>Destination</Text>
+            <BackButton text={t("quit")} pageRedirect={routes.HOME}/>
+            <Text style={styles.title}>{t("destination")}</Text>
             <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>La destination</Text>
+                <Text style={styles.inputLabel}>{t("theDestination")}</Text>
                 <Picker
                     style={styles.input}
                     selectedValue={destination}
@@ -123,7 +124,7 @@ export default function Destination() {
                     }
                 </Picker>
             </View>
-            <NextButton text="Terminer" onPress={handlePress}/>
+            <NextButton text={t("next")} onPress={handlePress}/>
         </View>
     );
 };

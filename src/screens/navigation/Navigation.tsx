@@ -4,6 +4,8 @@ import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
 
 import { routes } from "@/router/routes";
+import { t } from '@/locales/i18n';
+import { layout } from "@/styles/layout";
 import { colors } from "@/styles/colors";
 import { WaypointTypeStages } from "@/models/waypointType";
 import { StageChange } from "@/models/neighbor";
@@ -15,7 +17,6 @@ import Loader from "@/components/Loader";
 import { useMagnetometer } from "@/hooks/useMagnetometer";
 import { useLazyCypher } from "@/hooks/useLazyCypher";
 import { useNavigationContext } from "@/context/navigationContext";
-import { layout } from "@/styles/layout";
 
 export default function Navigation() {
     const navigation = useNavigation();
@@ -78,6 +79,9 @@ export default function Navigation() {
 
         if (!waypointResult || waypointResult.length === 0) {
             console.log("Waypoint doesn't exist");
+            Toast.show(t("toast.waypointDoesNotExist"), {
+                position: Toast.positions.CENTER,
+            });
             return;
         }
 
@@ -104,7 +108,7 @@ export default function Navigation() {
         const path = pathResult[0]._fields[0].segments
         if (!path || path.length === 0) {
             console.error("Path doesn't exist");
-            Toast.show("Il n'y a pas de chemin entre le point de départ et la destination", {
+            Toast.show(t("toast.pathDoesNotExists"), {
                 position: Toast.positions.CENTER,
             });
             return;
@@ -119,7 +123,7 @@ export default function Navigation() {
             <View style={styles.container}>
                 <Loader loading={waypointLoading || pathLoading}/>
                 <QrScanner
-                    instructions="Suivez les indications.\nScannez le QR code du prochain point de passage."
+                    instructions={t("instructions.navigation")}
                     handleScan={handleScan}
                 />
                 <NavigateIcon
@@ -134,7 +138,7 @@ export default function Navigation() {
             <View style={styles.container}>
                 <Loader loading={waypointLoading || pathLoading}/>
                 <QrScanner
-                    instructions="Suivez les indications.\nScannez le QR code du prochain point de passage."
+                    instructions={t("instructions.navigation")}
                     handleScan={handleScan}
                 />
                 <View style={styles.stageInstructions}>
@@ -151,7 +155,7 @@ export default function Navigation() {
             <View style={styles.container}>
                 <Loader loading={true}/>
                 <QrScanner
-                    instructions="Suivez les indications.\nScannez le QR code du prochain point de passage."
+                    instructions={t("instructions.navigation")}
                     handleScan={() => {}}
                 />
             </View>
