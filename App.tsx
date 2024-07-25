@@ -5,8 +5,13 @@ import { StyleSheet, Text, View } from 'react-native';
 import Router from '@/router/Router';
 import ContextsProvider from '@/context';
 import { colors } from '@/styles/colors';
+import useInternetConnection from '@/hooks/useInternetConnection';
+import { useEffect } from 'react';
+import Toast from 'react-native-root-toast';
 
 export default function App() {
+    const isConnectionAvailable = useInternetConnection();
+
     const requiredEnvVars = [
         process.env.EXPO_PUBLIC_NEO4J_URI,
         process.env.EXPO_PUBLIC_NEO4J_USER,
@@ -21,6 +26,15 @@ export default function App() {
             </View>
         );
     }
+
+    useEffect(() => {
+        if (!isConnectionAvailable) {
+            console.error("No internet connection available.");
+            Toast.show("No internet connection available.", {
+                position: Toast.positions.CENTER,
+            });
+        }
+    }, [isConnectionAvailable]);
 
     return (
         <RootSiblingParent>
