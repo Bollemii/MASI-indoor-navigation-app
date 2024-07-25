@@ -15,7 +15,7 @@ import { Picker } from '@react-native-picker/picker';
 
 export default function HomeScreen() {
     const navigation = useNavigation();
-    const [language, setLanguage] = useState("en");
+    const [language, setLanguage] = useState(getCurrentLanguage());
     const { setWaypointCtx } = useWaypointContext();
     const { setNeighborCtx } = useNeighborContext();
     const { setNavigationCtx } = useNavigationContext();

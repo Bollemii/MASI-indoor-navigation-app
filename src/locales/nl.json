@@ -4,7 +4,7 @@
     "connectNeighbor": "Verbinden met een nabijgelegen waypoint",
     "destination": "Bestemming",
     "finish": "Voltooien",
-    "installation": "Voeg een nieuw waypoint toe",
+    "installation": "Voeg een nieuw\nwaypoint toe",
     "instructions": {
         "navigation": "Volg de instructies.\nScan de QR-code van het volgende waypoint.",
         "scanNewQR": "Scan de QR-code van het nieuwe waypoint",
