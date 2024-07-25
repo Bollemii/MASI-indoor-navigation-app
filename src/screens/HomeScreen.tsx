@@ -48,7 +48,7 @@ export default function HomeScreen() {
         <View style={styles.container}>
             <Picker
                 style={styles.languageInput}
-                mode='dropdown'
+                mode={Picker.MODE_DROPDOWN}
                 selectedValue={language}
                 onValueChange={(value) => handleChooseLanguage(value)}
             >
