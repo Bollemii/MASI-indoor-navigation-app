@@ -16,7 +16,7 @@ export default function AddPoint() {
     const navigation = useNavigation();
     const { setWaypointCtx } = useWaypointContext();
     const [id, setId] = useState("");
-    const [result, loading, runQuery] = useLazyCypher();
+    const [result, error, loading, runQuery] = useLazyCypher();
 
     const handleScan = (result: string) => {
         if (!result) {
@@ -49,6 +49,22 @@ export default function AddPoint() {
             navigation.navigate(routes.INFORMATIONS);
         }
     }, [result]);
+    useEffect(() => {
+        if (error) {
+            if (error.code === "ServiceUnavailable") {
+                console.log("Database is unavailable");
+                Toast.show(t("toast.databaseUnavailable"), {
+                    position: Toast.positions.CENTER,
+                });
+                navigation.navigate(routes.HOME);
+            } else {
+                console.error("Error while fetching waypoint :", error);
+                Toast.show(t("toast.waypointDoesNotExist"), {
+                    position: Toast.positions.CENTER,
+                });
+            }
+        }
+    }, [error]);
 
     return (
         <View style={{flex:1}}>

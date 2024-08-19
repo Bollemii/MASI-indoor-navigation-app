@@ -21,8 +21,8 @@ import { useNavigationContext } from "@/context/navigationContext";
 export default function Navigation() {
     const navigation = useNavigation();
     const { navigationCtx, setPath } = useNavigationContext();
-    const [waypointResult, waypointLoading, runWaypointQuery] = useLazyCypher();
-    const [pathResult, pathLoading, runPathQuery] = useLazyCypher();
+    const [waypointResult, waypointError, waypointLoading, runWaypointQuery] = useLazyCypher();
+    const [pathResult, pathError, pathLoading, runPathQuery] = useLazyCypher();
     const magnetometer = useMagnetometer();
     const [orientation, setOrientation] = useState<number | undefined>(undefined);
     const [stage, setStage] = useState<StageChange | undefined>(undefined);
@@ -117,6 +117,23 @@ export default function Navigation() {
         setPath(path);
         setId(0);
     }, [pathResult]);
+    useEffect(() => {
+        const error = waypointError || pathError;
+        if (error) {
+            if (error.code === "ServiceUnavailable") {
+                console.log("Database is unavailable");
+                Toast.show(t("toast.databaseUnavailable"), {
+                    position: Toast.positions.CENTER,
+                });
+                navigation.navigate(routes.HOME);
+            } else {
+                console.error("Error while fetching waypoint :", error);
+                Toast.show(t("toast.waypointDoesNotExist"), {
+                    position: Toast.positions.CENTER,
+                });
+            }
+        }
+    }, [waypointError, pathError]);
 
     if (orientation) {
         return (

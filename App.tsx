@@ -8,6 +8,7 @@ import { colors } from '@/styles/colors';
 import useInternetConnection from '@/hooks/useInternetConnection';
 import { useEffect } from 'react';
 import Toast from 'react-native-root-toast';
+import { t } from '@/locales/i18n';
 
 export default function App() {
     const isConnectionAvailable = useInternetConnection();
@@ -30,7 +31,7 @@ export default function App() {
     useEffect(() => {
         if (!isConnectionAvailable) {
             console.error("No internet connection available.");
-            Toast.show("No internet connection available.", {
+            Toast.show(t("toast.noInternet"), {
                 position: Toast.positions.CENTER,
             });
         }
