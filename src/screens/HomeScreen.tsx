@@ -48,6 +48,8 @@ export default function HomeScreen() {
         <View style={styles.container}>
             <View style={styles.languageInputBox}>
                 <Picker
+                    style={styles.languageInput}
+                    dropdownIconColor={colors.white}
                     mode={Picker.MODE_DROPDOWN}
                     selectedValue={language}
                     onValueChange={(value) => handleChooseLanguage(value)}
@@ -89,11 +91,14 @@ const styles = StyleSheet.create({
         right: layout.emptyBorder,
         height: 50,
         width: 150,
-        borderColor: colors.black,
+        borderColor: colors.white,
         borderWidth: 2,
         borderRadius: layout.borderRadius.small,
         backgroundColor: colors.brown,
         justifyContent: 'center',
+    },
+    languageInput: {
+        color: colors.white,
     },
     title: {
         fontSize: fonts.size.title,
