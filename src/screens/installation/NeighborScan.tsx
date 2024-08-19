@@ -20,7 +20,7 @@ export default function NeighborScan() {
     const navigation = useNavigation();
     const { waypointCtx } = useWaypointContext();
     const { setNeighborCtx } = useNeighborContext();
-    const [result, loading, runQuery] = useLazyCypher();
+    const [result, error, loading, runQuery] = useLazyCypher();
     const steps = usePedometer();
     const [id, setId] = useState("");
 
@@ -81,6 +81,22 @@ export default function NeighborScan() {
             }
         }        
     }, [result]);
+    useEffect(() => {
+        if (error) {
+            if (error.code === "ServiceUnavailable") {
+                console.log("Database is unavailable");
+                Toast.show(t("toast.databaseUnavailable"), {
+                    position: Toast.positions.CENTER,
+                });
+                navigation.navigate(routes.HOME);
+            } else {
+                console.error("Error while fetching waypoint :", error);
+                Toast.show(t("toast.waypointDoesNotExist"), {
+                    position: Toast.positions.CENTER,
+                });
+            }
+        }
+    }, [error]);
 
     return (
         <View style={{flex:1}}>

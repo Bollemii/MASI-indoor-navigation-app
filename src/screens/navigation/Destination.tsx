@@ -21,8 +21,8 @@ import { useNavigationContext } from "@/context/navigationContext";
 export default function Destination() {
     const navigation = useNavigation();
     const { navigationCtx, setPath, setEnd } = useNavigationContext();
-    const [waypointsResult, waypointsLoading, runWaypointsQuery] = useLazyCypher();
-    const [pathResult, pathLoading, runPathQuery] = useLazyCypher();
+    const [waypointsResult, waypointError, waypointsLoading, runWaypointsQuery] = useLazyCypher();
+    const [pathResult, pathError, pathLoading, runPathQuery] = useLazyCypher();
     const [destination, setDestination] = useState("");
     const [waypoints, setWaypoints] = useState<Waypoint[]>([]);
 
@@ -105,6 +105,23 @@ export default function Destination() {
             navigation.navigate(routes.NAVIGATION);
         }
     }, [pathResult]);
+    useEffect(() => {
+        const error = waypointError || pathError;
+        if (error) {
+            if (error.code === "ServiceUnavailable") {
+                console.log("Database is unavailable");
+                Toast.show(t("toast.databaseUnavailable"), {
+                    position: Toast.positions.CENTER,
+                });
+                navigation.navigate(routes.HOME);
+            } else {
+                console.error("Error while fetching waypoint :", error);
+                Toast.show(t("toast.waypointDoesNotExist"), {
+                    position: Toast.positions.CENTER,
+                });
+            }
+        }
+    }, [waypointError, pathError]);
 
     if (waypoints.length === 0) return null;
     return (

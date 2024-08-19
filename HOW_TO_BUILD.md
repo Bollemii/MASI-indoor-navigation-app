@@ -11,7 +11,7 @@ npm install
 ```
 
 # 2. Création de la base de données
-Pour créer la base de données, vous devez tout d'abord créer un compte Neo4j à l'adresse suivante : [Neo4j](https://login.neo4j.com/u/signup/identifier?state=hKFo2SBZUFlwUmxZbDJJVDAza3dCVzc4eFlsQXB1MFgzV3hVRaFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIEg3eFBDSUhmX2xqTGJNM05QdEwzZFF0RHFfYjFIcjBho2NpZNkgV1NMczYwNDdrT2pwVVNXODNnRFo0SnlZaElrNXpZVG8). Le site vous demandera de vérifier votre adresse e-mail. 
+Pour créer la base de données, vous devez tout d'abord créer un compte Neo4j à l'adresse suivante : [Neo4j](https://login.neo4j.com/u/signup/identifier?state=hKFo2SBZUFlwUmxZbDJJVDAza3dCVzc4eFlsQXB1MFgzV3hVRaFur3VuaXZlcnNhbC1sb2dpbqN0aWTZIEg3eFBDSUhmX2xqTGJNM05QdEwzZFF0RHFfYjFIcjBho2NpZNkgV1NMczYwNDdrT2pwVVNXODNnRFo0SnlZaElrNXpZVG8). Le site vous demandera de vérifier votre adresse e-mail.
 
 Ensuite, en étant connecté à votre compte, créer une nouvelle instance gratuite (une version payante n'est pas nécessaire pour ce projet). Télécharger les informations d'accès que le site vous donne.
 
@@ -21,7 +21,6 @@ Copiez et collez le fichier `.env.example` et renommez-le en `.env`.
 Dans le fichier `.env`, remplacez comme suit les valeurs entre chevrons par les informations que vous avez téléchargées lors de la création de la base de données :
 ```bash
 EXPO_PUBLIC_NEO4J_URI="<NEO4J_URI>"
-EXPO_PUBLIC_NEO4J_DATABASE="neo4j"
 EXPO_PUBLIC_NEO4J_USER="<NEO4J_USERNAME>"
 EXPO_PUBLIC_NEO4J_PASSWORD="<NEO4J_PASSWORD>"
 ```

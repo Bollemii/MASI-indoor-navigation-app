@@ -23,9 +23,9 @@ export default function AddNeighbor() {
     const navigation = useNavigation();
     const { waypointCtx, setWaypointCtx } = useWaypointContext();
     const { setNeighborCtx } = useNeighborContext();
-    const [getNumberResult, getNumberloading, runGetNumberQuery] = useLazyCypher();
-    const [createResult, createLoading, runCreateQuery] = useLazyCypher();
-    const [neighborResult, neighborLoading, runNeighborQuery] = useLazyCypher();
+    const [getNumberResult, getNumberError, getNumberloading, runGetNumberQuery] = useLazyCypher();
+    const [createResult, createError, createLoading, runCreateQuery] = useLazyCypher();
+    const [neighborResult, neighborError, neighborLoading, runNeighborQuery] = useLazyCypher();
     const [waypointsNumber, setWaypointsNumber] = useState(0);
     const [isFinished, setIsFinished] = useState(false);
     const [neighborsCreated, setNeighborsCreated] = useState<string[]>([]);
@@ -128,6 +128,23 @@ export default function AddNeighbor() {
             }
         }
     }, [neighborResult]);
+    useEffect(() => {
+        const error = getNumberError || createError || neighborError;
+        if (error) {
+            if (error.code === "ServiceUnavailable") {
+                console.log("Database is unavailable");
+                Toast.show(t("toast.databaseUnavailable"), {
+                    position: Toast.positions.CENTER,
+                });
+                navigation.navigate(routes.HOME);
+            } else {
+                console.error("Error while fetching waypoint :", error);
+                Toast.show(t("toast.waypointDoesNotExist"), {
+                    position: Toast.positions.CENTER,
+                });
+            }
+        }
+    }, [getNumberError, createError, neighborError]);
 
     return (
         <View style={styles.container}>

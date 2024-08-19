@@ -46,16 +46,19 @@ export default function HomeScreen() {
 
     return (
         <View style={styles.container}>
-            <Picker
-                style={styles.languageInput}
-                mode={Picker.MODE_DROPDOWN}
-                selectedValue={language}
-                onValueChange={(value) => handleChooseLanguage(value)}
-            >
-                {getAvailableLanguages().map((language) => {
-                    return <Picker.Item key={language} label={t(`language.${language}`)} value={language}/>;})
-                }
-            </Picker>
+            <View style={styles.languageInputBox}>
+                <Picker
+                    style={styles.languageInput}
+                    dropdownIconColor={colors.white}
+                    mode={Picker.MODE_DROPDOWN}
+                    selectedValue={language}
+                    onValueChange={(value) => handleChooseLanguage(value)}
+                >
+                    {getAvailableLanguages().map((language) => {
+                        return <Picker.Item key={language} label={t(`language.${language}`)} value={language}/>;})
+                    }
+                </Picker>
+            </View>
             <Text style={styles.title}>{t("navigationApp")}</Text>
             <View style={styles.buttonContainer}>
                 <Button
@@ -82,16 +85,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: colors.brown,
     },
-    languageInput: {
+    languageInputBox: {
         position: 'absolute',
         top: layout.emptyBorder,
         right: layout.emptyBorder,
         height: 50,
         width: 150,
-        borderColor: colors.black,
-        borderWidth: 1,
+        borderColor: colors.white,
+        borderWidth: 2,
         borderRadius: layout.borderRadius.small,
-        backgroundColor: colors.gray,
+        backgroundColor: colors.brown,
+        justifyContent: 'center',
+    },
+    languageInput: {
+        color: colors.white,
     },
     title: {
         fontSize: fonts.size.title,

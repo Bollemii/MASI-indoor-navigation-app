@@ -15,7 +15,7 @@ import { useNavigationContext } from "@/context/navigationContext";
 export default function StartScan() {
     const navigation = useNavigation();
     const { setStart, setNavigationCtx } = useNavigationContext();
-    const [result, loading, runQuery] = useLazyCypher();
+    const [result, error, loading, runQuery] = useLazyCypher();
     const [id, setId] = useState("");
 
     const handleScan = (result: string) => {
@@ -48,6 +48,22 @@ export default function StartScan() {
             }
         }
     }, [result]);
+    useEffect(() => {
+        if (error) {
+            if (error.code === "ServiceUnavailable") {
+                console.log("Database is unavailable");
+                Toast.show(t("toast.databaseUnavailable"), {
+                    position: Toast.positions.CENTER,
+                });
+                navigation.navigate(routes.HOME);
+            } else {
+                console.error("Error while fetching waypoint :", error);
+                Toast.show(t("toast.waypointDoesNotExist"), {
+                    position: Toast.positions.CENTER,
+                });
+            }
+        }
+    }, [error]);
 
     return (
         <View style={{flex:1}}>
