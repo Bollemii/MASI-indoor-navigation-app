@@ -26,8 +26,9 @@ export default function Navigation() {
     const magnetometer = useMagnetometer();
     const [orientation, setOrientation] = useState<number | undefined>(undefined);
     const [stage, setStage] = useState<StageChange | undefined>(undefined);
+    const [fakeLoading, setFakeLoading] = useState(false);
     const [idScanned, setIdScanned] = useState("");
-    const [id, setId] = useState(0);
+    const [idPath, setIdPath] = useState(0);
 
     const handleScan = (result: string) => {
         if (!result) {
@@ -38,8 +39,33 @@ export default function Navigation() {
 
         setIdScanned(result);
 
-        const waypointQuery = getWaypointQuery(result);
-        runWaypointQuery(waypointQuery.query, waypointQuery.params);
+        if (result === navigationCtx.end.id) {
+            console.log("Destination reached");
+
+            navigation.navigate(routes.END);
+            return;
+        }
+
+        if (result === navigationCtx.path[idPath].end.properties.id) {
+            setIdPath(idPath + 1)
+            makeFakeLoading();
+        } else {
+            const foundWaypoint = navigationCtx.path.find((path) => path.end.properties.id === result);
+            if (foundWaypoint) {
+                setIdPath(navigationCtx.path.indexOf(foundWaypoint));
+                makeFakeLoading();
+            } else {
+                const waypointQuery = getWaypointQuery(result);
+                runWaypointQuery(waypointQuery.query, waypointQuery.params);
+            }
+        }
+    };
+
+    const makeFakeLoading = () => {
+        setFakeLoading(true);
+        setTimeout(() => {
+            setFakeLoading(false);
+        }, 100);
     };
 
     useEffect(() => {
@@ -65,7 +91,7 @@ export default function Navigation() {
         }
     }, []);
     useEffect(() => {
-        const path = navigationCtx.path[id];
+        const path = navigationCtx.path[idPath];
         if (WaypointTypeStages.includes(path.start.properties.type) && WaypointTypeStages.includes(path.end.properties.type)) {
             setStage(path.relationship.properties.stage);
             setOrientation(undefined);
@@ -73,7 +99,7 @@ export default function Navigation() {
             setOrientation(path.relationship.properties.orientation)
             setStage(undefined);
         }
-    }, [id, navigationCtx.path]);
+    }, [idPath, navigationCtx.path]);
     useEffect(() => {
         if (!idScanned) return;
 
@@ -93,19 +119,19 @@ export default function Navigation() {
             return;
         }
 
-        if (waypoint.id !== navigationCtx.path[id].end.properties.id) {
+        if (waypoint.id === navigationCtx.path[idPath].end.properties.id) {
+            setIdPath(idPath + 1)
+        } else {
             console.log("Wrong QR code scanned");
-            
+
             const query = getShortestPathQuery(waypoint.id, navigationCtx.end.id);
             runPathQuery(query.query, query.params);
-        } else {
-            setId(id + 1)
         }
     }, [waypointResult]);
     useEffect(() => {
         if (!idScanned) return;
 
-        const path = pathResult[0]._fields[0].segments
+        const path = !pathResult || pathResult.length > 0 ? pathResult[0]._fields[0].segments : [];
         if (!path || path.length === 0) {
             console.error("Path doesn't exist");
             Toast.show(t("toast.pathDoesNotExists"), {
@@ -115,7 +141,7 @@ export default function Navigation() {
         }
 
         setPath(path);
-        setId(0);
+        setIdPath(0);
     }, [pathResult]);
     useEffect(() => {
         const error = waypointError || pathError;
@@ -135,36 +161,30 @@ export default function Navigation() {
         }
     }, [waypointError, pathError]);
 
-    if (orientation) {
+    if (orientation || stage) {
         return (
             <View style={styles.container}>
-                <Loader loading={waypointLoading || pathLoading}/>
+                <Loader loading={waypointLoading || pathLoading || fakeLoading}/>
                 <QrScanner
                     instructions={t("instructions.navigation")}
                     handleScan={handleScan}
                 />
-                <NavigateIcon
-                    orientation={orientation}
-                    color={colors.blue}
-                    magnetometerAngle={magnetometer}
-                />
-            </View>
-        );
-    } else if (stage) {
-        return (
-            <View style={styles.container}>
-                <Loader loading={waypointLoading || pathLoading}/>
-                <QrScanner
-                    instructions={t("instructions.navigation")}
-                    handleScan={handleScan}
-                />
-                <View style={styles.stageInstructions}>
-                    {stage === StageChange.UP ? (
-                        <Text>Montez d'un étage</Text>
-                    ) : (
-                        <Text>Descendez d'un étage</Text>
-                    )}
-                </View>
+                {orientation && (
+                    <NavigateIcon
+                        orientation={orientation}
+                        color={colors.blue}
+                        magnetometerAngle={magnetometer}
+                    />
+                )}
+                {stage && (
+                    <View style={styles.stageInstructions}>
+                        {stage === StageChange.UP ? (
+                            <Text>Montez d'un étage</Text>
+                        ) : (
+                            <Text>Descendez d'un étage</Text>
+                        )}
+                    </View>
+                )}
             </View>
         );
     } else {
