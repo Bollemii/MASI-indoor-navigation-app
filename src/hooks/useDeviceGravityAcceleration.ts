@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Subscription } from 'expo-modules-core';
 import { DeviceMotion, DeviceMotionMeasurement } from "expo-sensors";
 
-export const GRAVITY_ACCELERATION = 9.81;
+export const GRAVITY_ACCELERATION = DeviceMotion.Gravity;
 
-export function useDeviceGravityAcceleration(interval: number = 1000) {
+export const useDeviceGravityAcceleration = (interval: number = 1000) => {
     const [data, setData] = useState<DeviceMotionMeasurement>();
     const [subscription, setSubscription] = useState<Subscription | null>(null);
 

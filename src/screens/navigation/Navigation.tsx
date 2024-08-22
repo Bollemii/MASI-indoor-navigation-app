@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
+import { DeviceMotion, Magnetometer } from "expo-sensors";
 
 import { routes } from "@/router/routes";
 import { t } from '@/locales/i18n';
@@ -16,9 +17,11 @@ import QrScanner from "@/components/QrScanner";
 import Loader from "@/components/Loader";
 import { useMagnetometer } from "@/hooks/useMagnetometer";
 import { useLazyCypher } from "@/hooks/useLazyCypher";
+import { usePermission } from "@/hooks/usePermission";
 import { useDeviceGravityAcceleration, GRAVITY_ACCELERATION } from "@/hooks/useDeviceGravityAcceleration";
-import { useDeviceMotionPermission } from "@/hooks/useDeviceMotionPermission";
 import { useNavigationContext } from "@/context/navigationContext";
+
+const ACC_THRESHOLD = 1;
 
 export default function Navigation() {
     const navigation = useNavigation();
@@ -26,7 +29,8 @@ export default function Navigation() {
     const [waypointResult, waypointError, waypointLoading, runWaypointQuery] = useLazyCypher();
     const [pathResult, pathError, pathLoading, runPathQuery] = useLazyCypher();
     const magnetometer = useMagnetometer();
-    const [permissions, requestPermissions] = useDeviceMotionPermission();
+    const [motionPermission, requestMotionPermission] = usePermission(DeviceMotion);
+    const [magnetometerPermission, requestMagnetometerPermission] = usePermission(Magnetometer);
     const { z } = useDeviceGravityAcceleration();
     const [orientation, setOrientation] = useState<number | undefined>(undefined);
     const [stage, setStage] = useState<StageChange | undefined>(undefined);
@@ -78,8 +82,11 @@ export default function Navigation() {
             navigation.navigate(routes.HOME);
         }
 
-        if (!permissions?.granted) {
-            requestPermissions();
+        if (!motionPermission?.granted) {
+            requestMotionPermission();
+        }
+        if (!magnetometerPermission?.granted) {
+            requestMagnetometerPermission();
         }
 
         if (process.env.EXPO_PUBLIC_VERBOSE || false) {
@@ -100,7 +107,7 @@ export default function Navigation() {
     }, []);
     useEffect(() => {
         if (!orientation) return;
-        if (z + GRAVITY_ACCELERATION > 0.8) {
+        if (z + GRAVITY_ACCELERATION > ACC_THRESHOLD) {
             Toast.show(t("toast.holdPhoneHorizontally"), {
                 position: Toast.positions.CENTER,
             });
