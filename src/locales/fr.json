@@ -43,6 +43,7 @@
         "destinationDoesNotExist": "La destination n'existe pas.",
         "destinationIsNotSet": "La destination n'est pas définie.",
         "firstWaypoint": "Vous créez le premier point de passage. Il n'est pas possible de le connecter à un voisin. Vous pouvez terminer l'installation.",
+        "holdPhoneHorizontally": "Veuillez tenir le téléphone horizontalement.",
         "nameIsRequired": "Le nom est requis.",
         "navigationIsNotAvailable": "La navigation n'est pas disponible. Veuillez installer de nouveaux points de passage.",
         "noInternet": "Aucune connexion Internet disponible.",

@@ -16,6 +16,8 @@ import QrScanner from "@/components/QrScanner";
 import Loader from "@/components/Loader";
 import { useMagnetometer } from "@/hooks/useMagnetometer";
 import { useLazyCypher } from "@/hooks/useLazyCypher";
+import { useDeviceGravityAcceleration, GRAVITY_ACCELERATION } from "@/hooks/useDeviceGravityAcceleration";
+import { useDeviceMotionPermission } from "@/hooks/useDeviceMotionPermission";
 import { useNavigationContext } from "@/context/navigationContext";
 
 export default function Navigation() {
@@ -24,6 +26,8 @@ export default function Navigation() {
     const [waypointResult, waypointError, waypointLoading, runWaypointQuery] = useLazyCypher();
     const [pathResult, pathError, pathLoading, runPathQuery] = useLazyCypher();
     const magnetometer = useMagnetometer();
+    const [permissions, requestPermissions] = useDeviceMotionPermission();
+    const { z } = useDeviceGravityAcceleration();
     const [orientation, setOrientation] = useState<number | undefined>(undefined);
     const [stage, setStage] = useState<StageChange | undefined>(undefined);
     const [fakeLoading, setFakeLoading] = useState(false);
@@ -74,6 +78,10 @@ export default function Navigation() {
             navigation.navigate(routes.HOME);
         }
 
+        if (!permissions?.granted) {
+            requestPermissions();
+        }
+
         if (process.env.EXPO_PUBLIC_VERBOSE || false) {
             console.log("NAVIGATION");
             navigationCtx.path.forEach((path) => {
@@ -90,6 +98,14 @@ export default function Navigation() {
             });
         }
     }, []);
+    useEffect(() => {
+        if (!orientation) return;
+        if (z + GRAVITY_ACCELERATION > 0.8) {
+            Toast.show(t("toast.holdPhoneHorizontally"), {
+                position: Toast.positions.CENTER,
+            });
+        }
+    }, [z]);
     useEffect(() => {
         const path = navigationCtx.path[idPath];
         if (WaypointTypeStages.includes(path.start.properties.type) && WaypointTypeStages.includes(path.end.properties.type)) {

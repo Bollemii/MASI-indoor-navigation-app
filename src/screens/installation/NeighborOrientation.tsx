@@ -13,6 +13,8 @@ import NavigateIcon from "@/components/NavigateIcon";
 import NextButton from "@/components/NextButton";
 import BackButton from "@/components/BackButton";
 import { useMagnetometer } from "@/hooks/useMagnetometer";
+import { useDeviceGravityAcceleration, GRAVITY_ACCELERATION } from "@/hooks/useDeviceGravityAcceleration";
+import { useDeviceMotionPermission } from "@/hooks/useDeviceMotionPermission";
 import { useWaypointContext } from "@/context/waypointContext";
 import { useNeighborContext } from "@/context/neighborContext";
 
@@ -21,6 +23,8 @@ export default function NeighborOrientation() {
     const { waypointCtx } = useWaypointContext();
     const { setWaypointCtx } = useWaypointContext();
     const { neighborCtx, setNeighborCtx } = useNeighborContext();
+    const [permission, requestPermission] = useDeviceMotionPermission();
+    const { z } = useDeviceGravityAcceleration();
     const [orientation, setOrientation] = useState(-1);
     const magnetometerAngle = useMagnetometer();
 
@@ -54,7 +58,18 @@ export default function NeighborOrientation() {
             console.error("Neighbor context is not defined");
             navigation.navigate(routes.ADD_NEIGHBOR);
         }
+
+        if (!permission?.granted) {
+            requestPermission();
+        }
     }, []);
+    useEffect(() => {
+        if (z + GRAVITY_ACCELERATION > 0.8) {
+            Toast.show(t("toast.holdPhoneHorizontally"), {
+                position: Toast.positions.CENTER,
+            });
+        }
+    }, [z]);
 
     return (
         <View style={styles.container}>
