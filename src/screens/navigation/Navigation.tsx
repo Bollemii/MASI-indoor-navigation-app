@@ -73,7 +73,7 @@ export default function Navigation() {
         setFakeLoading(true);
         setTimeout(() => {
             setFakeLoading(false);
-        }, 100);
+        }, 300);
     };
 
     useEffect(() => {
@@ -110,6 +110,7 @@ export default function Navigation() {
         if (z + GRAVITY_ACCELERATION > ACC_THRESHOLD) {
             Toast.show(t("toast.holdPhoneHorizontally"), {
                 position: Toast.positions.CENTER,
+                duration: Toast.durations.SHORT,
             });
         }
     }, [z]);

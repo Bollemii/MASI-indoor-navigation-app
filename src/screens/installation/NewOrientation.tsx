@@ -70,6 +70,7 @@ export default function NewOrientation() {
         if (z + GRAVITY_ACCELERATION > ACC_THRESHOLD) {
             Toast.show(t("toast.holdPhoneHorizontally"), {
                 position: Toast.positions.CENTER,
+                duration: Toast.durations.SHORT,
             });
         }
     }, [z]);
