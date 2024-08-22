@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-root-toast";
+import { DeviceMotion, Magnetometer } from "expo-sensors";
 
 import { routes } from "@/router/routes";
 import { t } from "@/locales/i18n";
@@ -13,13 +14,20 @@ import NavigateIcon from "@/components/NavigateIcon";
 import NextButton from "@/components/NextButton";
 import BackButton from "@/components/BackButton";
 import { useMagnetometer } from "@/hooks/useMagnetometer";
+import { usePermission } from "@/hooks/usePermission";
+import { useDeviceGravityAcceleration, GRAVITY_ACCELERATION } from "@/hooks/useDeviceGravityAcceleration";
 import { useWaypointContext } from "@/context/waypointContext";
 import { useNeighborContext } from "@/context/neighborContext";
+
+const ACC_THRESHOLD = 0.8;
 
 export default function NewOrientation() {
     const navigation = useNavigation();
     const { waypointCtx } = useWaypointContext();
     const { neighborCtx, setNeighborCtx } = useNeighborContext();
+    const [motionPermission, requestMotionPermission] = usePermission(DeviceMotion);
+    const [magnetometerPermission, requestMagnetometerPermission] = usePermission(Magnetometer);
+    const { z } = useDeviceGravityAcceleration();
     const [orientation, setOrientation] = useState(-1);
     const magnetometerAngle = useMagnetometer();
 
@@ -50,7 +58,22 @@ export default function NewOrientation() {
             console.error("Neighbor is not defined");
             navigation.navigate(routes.ADD_NEIGHBOR);
         }
+
+        if (!motionPermission?.granted) {
+            requestMotionPermission();
+        }
+        if (!magnetometerPermission?.granted) {
+            requestMagnetometerPermission();
+        }
     }, []);
+    useEffect(() => {
+        if (z + GRAVITY_ACCELERATION > ACC_THRESHOLD) {
+            Toast.show(t("toast.holdPhoneHorizontally"), {
+                position: Toast.positions.CENTER,
+                duration: Toast.durations.SHORT,
+            });
+        }
+    }, [z]);
 
     return (
         <View style={styles.container}>

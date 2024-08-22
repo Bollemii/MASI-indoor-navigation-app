@@ -43,6 +43,7 @@
         "destinationDoesNotExist": "Bestemming bestaat niet.",
         "destinationIsNotSet": "Bestemming is niet ingesteld.",
         "firstWaypoint": "Je maakt het eerste waypoint aan. Het is niet mogelijk om het met een buur te verbinden. Je kunt de installatie voltooien.",
+        "holdPhoneHorizontally": "Houd de telefoon horizontaal.",
         "nameIsRequired": "De naam is verplicht.",
         "navigationIsNotAvailable": "Navigatie is niet beschikbaar. Installeer nieuwe waypoints.",
         "noInternet": "Geen internetverbinding beschikbaar.",

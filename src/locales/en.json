@@ -43,6 +43,7 @@
         "destinationDoesNotExist": "Destination does not exist.",
         "destinationIsNotSet": "Destination is not set.",
         "firstWaypoint": "You are creating the first waypoint. It is not possible to connect it to a neighbor. You can finish the installation.",
+        "holdPhoneHorizontally": "Please hold the phone horizontally.",
         "nameIsRequired": "The name is required.",
         "navigationIsNotAvailable": "Navigation is not available. Please install new waypoints.",
         "noInternet": "No internet connection available.",
